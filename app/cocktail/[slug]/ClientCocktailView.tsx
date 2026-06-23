@@ -3,6 +3,7 @@
 import { Cocktail } from '@/types/cocktail';
 import Link from 'next/link';
 import Image from 'next/image';
+import SplineScene from '@/components/SplineScene';
 import { useState, useEffect } from 'react';
 
 export default function ClientCocktailView({
@@ -163,11 +164,17 @@ export default function ClientCocktailView({
         </div>
       </div>
 
-      {/* Right Container: Empty (60% width on md screens) to show the background video */}
+      {/* Right Container: 3D Scene */}
       <div 
         className="w-full md:w-[60%] h-[55dvh] md:h-full relative overflow-hidden flex-1 z-10"
       >
-        {/* 3D models removed as requested */}
+        {cocktail.spline_scene_url ? (
+          <SplineScene 
+            sceneUrl={cocktail.spline_scene_url} 
+            fallbackImageUrl={cocktail.backdrop_image_url || ''} 
+            altText={cocktail.name} 
+          />
+        ) : null}
       </div>
     </div>
   );
