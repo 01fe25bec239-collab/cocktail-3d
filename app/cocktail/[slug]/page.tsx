@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const cocktail = await getCocktail(params.slug);
   if (!cocktail) return { title: 'Cocktail Not Found' };
   
-  const title = `${cocktail.name} | 3D Cocktail Showcase`;
+  const title = cocktail.vibe_title ? `${cocktail.name} — ${cocktail.vibe_title} | Cocktail 3D Showcase` : `${cocktail.name} | Cocktail 3D Showcase`;
   const description = cocktail.description || `Discover the visual artistry and flavor notes of ${cocktail.name}.`;
   const images = cocktail.backdrop_image_url ? [{ url: cocktail.backdrop_image_url, alt: cocktail.name }] : [];
   
