@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     openGraph: {
       title,
       description,
+      url: `/cocktail/${cocktail.slug}`,
       images,
       type: 'website',
     },
