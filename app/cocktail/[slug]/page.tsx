@@ -3,6 +3,7 @@ import { Cocktail } from '@/types/cocktail';
 import { notFound } from 'next/navigation';
 import ClientCocktailView from './ClientCocktailView';
 import { Metadata } from 'next';
+import { getSimilarCocktails } from '@/utils/recommendations';
 
 export const revalidate = 60;
 
@@ -46,15 +47,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-async function getRecommendations(currentSlug: string): Promise<Cocktail[]> {
+async function getRecommendations(currentCocktail: Cocktail): Promise<Cocktail[]> {
   const supabase = createClient();
   const { data } = await supabase
     .from('cocktails')
     .select('*')
-    .eq('is_published', true)
-    .neq('slug', currentSlug)
-    .limit(3);
-  return (data as Cocktail[]) || [];
+    .eq('is_published', true);
+    
+  if (!data) return [];
+  
+  return getSimilarCocktails(currentCocktail, data as Cocktail[]);
 }
 
 export default async function CocktailPage({ params }: { params: { slug: string } }) {
@@ -64,7 +66,7 @@ export default async function CocktailPage({ params }: { params: { slug: string 
     notFound();
   }
 
-  const recommendations = await getRecommendations(params.slug);
+  const recommendations = await getRecommendations(cocktail);
 
   return <ClientCocktailView cocktail={cocktail} recommendations={recommendations} />;
 }
