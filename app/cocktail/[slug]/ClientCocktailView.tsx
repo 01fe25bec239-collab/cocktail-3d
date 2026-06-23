@@ -5,7 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
-export default function ClientCocktailView({ cocktail }: { cocktail: Cocktail }) {
+export default function ClientCocktailView({
+  cocktail,
+  recommendations,
+}: {
+  cocktail: Cocktail;
+  recommendations: Cocktail[];
+}) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -38,6 +44,10 @@ export default function ClientCocktailView({ cocktail }: { cocktail: Cocktail })
             loop 
             muted 
             playsInline
+            // Mobile Autoplay Guarantee Attributes
+            preload="auto"
+            webkit-playsinline="true"
+            x5-playsinline="true"
             controls={false}
             disablePictureInPicture
             onEnded={(e) => { e.currentTarget.play().catch(() => {}); }}
@@ -99,6 +109,41 @@ export default function ClientCocktailView({ cocktail }: { cocktail: Cocktail })
             <div className="mb-6">
               <h3 className="text-xs uppercase tracking-widest text-neutral-400 font-bold mb-2 drop-shadow-md">Taste Profile</h3>
               <p className="text-neutral-300 text-sm italic font-medium drop-shadow-sm">&quot;{cocktail.taste_notes}&quot;</p>
+            </div>
+          )}
+
+          {/* You Might Also Like section */}
+          {recommendations && recommendations.length > 0 && (
+            <div className="mb-8 mt-4 pt-6 border-t border-neutral-800/60">
+              <h3 className="text-xs uppercase tracking-widest text-neutral-400 font-bold mb-4 drop-shadow-md">You Might Also Like</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {recommendations.map(rec => (
+                  <Link 
+                    key={rec.id} 
+                    href={`/cocktail/${rec.slug}`}
+                    className="flex flex-col rounded-xl overflow-hidden bg-neutral-900/60 border border-neutral-800/50 hover:border-neutral-700/60 transition-all p-3 text-center"
+                  >
+                    <div className="relative w-full h-16 rounded-lg overflow-hidden mb-2 bg-neutral-950">
+                      {rec.backdrop_image_url ? (
+                        <Image 
+                          src={rec.backdrop_image_url} 
+                          alt={rec.name}
+                          fill
+                          className="object-cover brightness-75"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-neutral-800" />
+                      )}
+                    </div>
+                    <span 
+                      className="text-xs font-bold tracking-tight line-clamp-1"
+                      style={{ color: rec.theme_color_primary || '#f59e0b' }}
+                    >
+                      {rec.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>
