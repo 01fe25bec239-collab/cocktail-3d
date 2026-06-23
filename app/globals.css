@@ -2,26 +2,371 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════
+   GLOBAL CSS CUSTOM PROPERTIES — THEME ENGINE
+   These are written live by the GSAP scroll engine.
+   Default to a neutral off-white so the page is usable
+   before any JS executes.
+   ═══════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --accent: #888888;
+  --text-color: #1a1a2e;
+  --text-secondary: #3a3a4e;
+
+  /* Transition speed for elements that shouldn't hard-cut.
+     The GSAP engine writes raw values at 60fps, but some
+     downstream elements (buttons, chips) look better with
+     a slight CSS transition on top. */
+  --theme-transition: 0.15s ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ───── Base Body ───── */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-color);
+  background: var(--bg-primary);
+  font-family: var(--font-geist-sans, 'Inter', system-ui, sans-serif);
+  transition: color var(--theme-transition),
+              background var(--theme-transition);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* ═══════════════════════════════════════════════════════
+   FLOATING HEADER
+   ═══════════════════════════════════════════════════════ */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  background: color-mix(in srgb, var(--bg-primary) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  transition: background 0.3s ease-out,
+              border-color 0.3s ease-out;
+}
+
+.header-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0.875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  color: var(--text-color);
+  transition: color var(--theme-transition);
+}
+
+/* ═══════════════════════════════════════════════════════
+   COCKTAIL SECTION (pinned by GSAP ScrollTrigger)
+   ═══════════════════════════════════════════════════════ */
+
+.cocktail-section {
+  position: relative;
+  height: 100vh;            /* exact viewport height for pin */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ─── Backdrop media (image or video) ─── */
+.cocktail-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cocktail-backdrop img,
+.cocktail-backdrop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Tint overlay driven by section colours ─── */
+.cocktail-backdrop-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ─── Section content (above backdrop + 3D) ─── */
+.cocktail-content {
+  position: relative;
+  z-index: 5;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
+.cocktail-name {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.cocktail-vibe {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cocktail-description {
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════
+   COCKTAIL DETAILS — Staggered Framer Motion reveal
+   ═══════════════════════════════════════════════════════ */
+
+.cocktail-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* ─── Ingredient chips ─── */
+.ingredients-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.ingredient-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.ingredient-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--text-color);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  transition: background var(--theme-transition),
+              border-color var(--theme-transition),
+              color var(--theme-transition);
+}
+
+.ingredient-chip .amount {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ─── Tasting notes ─── */
+.cocktail-taste-note {
+  text-align: center;
+}
+
+.cocktail-taste-note .taste-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.cocktail-taste-note p {
+  font-size: 0.9375rem;
+  color: var(--text-color);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ─── Glass type tag ─── */
+.cocktail-glass-tag {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* ─── ABV badge ─── */
+.cocktail-abv-tag {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  border: 1px solid color-mix(in srgb, var(--text-secondary) 30%, transparent);
+}
+
+/* ─── Meta row (legacy — kept for backwards compat) ─── */
+.cocktail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.cocktail-meta .divider {
+  width: 1px;
+  height: 1rem;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  align-self: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPLINE 3D SCENE
+   ═══════════════════════════════════════════════════════ */
+
+.spline-container {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;       /* let clicks through to content */
+}
+
+.spline-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ─── Loader spinner while Spline downloads ─── */
+.spline-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spline-loader-ring {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIQUID FILL BAR — Mobile / reduced-motion fallback
+   ═══════════════════════════════════════════════════════ */
+
+.mobile-hero-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.liquid-fill-bar {
+  position: relative;
+  width: 3.5rem;
+  height: 10rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--text-color) 8%, transparent);
+  z-index: 4;
+}
+
+.liquid-fill-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0%;
+  border-radius: 0 0 9999px 9999px;
+  transition: height 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.liquid-fill-level.liquid-fill-active {
+  height: 85%;
+}
+
+/* Subtle glass shine on the bar */
+.liquid-fill-shine {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   REDUCED MOTION — Kill all transitions + animations
+   ═══════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .liquid-fill-level {
+    transition: none;
+    height: 85%;          /* just show it filled */
   }
 }

@@ -1,0 +1,297 @@
+diff --git a/components/GlobalCanvas.tsx b/components/GlobalCanvas.tsx
+--- a/components/GlobalCanvas.tsx
++++ b/components/GlobalCanvas.tsx
+@@ -1,9 +1,9 @@
+ 'use client';
+ 
+-import { Canvas } from '@react-three/fiber';
+-import { View, Preload, PerformanceMonitor } from '@react-three/drei';
+-import { useEffect, useState } from 'react';
++import { Canvas } from '@react-three/fiber';
++import { View, Preload, PerformanceMonitor, Environment } from '@react-three/drei';
++import { useEffect, useState, Suspense } from 'react';
+ import * as THREE from 'three';
+ 
+ const isWebGLAvailable = () => {
+@@ -46,7 +46,8 @@
+ 
+   return (
+     <Canvas
++      shadows
+       dpr={dpr}
+       style={{
+         position: 'fixed',
+         top: 0,
+@@ -58,7 +59,7 @@
+         zIndex: 10,
+       }}
+       eventSource={eventSource}
+-      camera={{ position: [0, 1.2, 5.5], fov: 45 }}
++      camera={{ position: [0, 1.2, 5.5], fov: 35 }}
+       gl={{ 
+         antialias: true, 
+         alpha: true,
+@@ -80,6 +81,9 @@
+         });
+       }}
+     >
++      <Suspense fallback={null}>
++        <Environment preset="studio" background={false} />
++      </Suspense>
+       <PerformanceMonitor 
+         onIncline={() => setDpr(Math.min(window.devicePixelRatio || 1, 2))} 
+         onDecline={() => setDpr(1)} 
+diff --git a/components/ThreeCocktailScene.tsx b/components/ThreeCocktailScene.tsx
+--- a/components/ThreeCocktailScene.tsx
++++ b/components/ThreeCocktailScene.tsx
+@@ -1,8 +1,8 @@
+ 'use client';
+ 
+ import { Suspense, useEffect, useRef } from 'react';
+-import { useFrame } from '@react-three/fiber';
+-import { useGLTF, OrbitControls, Instances, Instance } from '@react-three/drei';
++import { useFrame, useThree } from '@react-three/fiber';
++import { useGLTF, OrbitControls, Instances, Instance, MeshTransmissionMaterial } from '@react-three/drei';
+ import * as THREE from 'three';
+ import { gsap } from 'gsap';
+ 
+@@ -68,26 +68,48 @@
+   return <primitive object={clonedScene} position={position} rotation={rotation} scale={scaleArr} dispose={null} />;
+ }
+ 
++function GlassLoader({ url, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }: ModelProps) {
++  const { scene } = useGLTF(url);
++  
++  const meshes: THREE.Mesh[] = [];
++  scene.traverse((child) => {
++    if ((child as THREE.Mesh).isMesh) {
++      const mesh = child as THREE.Mesh;
++      if (mesh.geometry) mesh.geometry.computeBoundingSphere();
++      meshes.push(mesh);
++    }
++  });
++
++  const scaleArr: [number, number, number] = typeof scale === 'number' ? [scale, scale, scale] : scale;
++
++  return (
++    <group position={position} rotation={rotation} scale={scaleArr}>
++      {meshes.map((mesh, index) => (
++        <mesh
++          key={index}
++          geometry={mesh.geometry}
++          position={mesh.position}
++          rotation={mesh.rotation}
++          scale={mesh.scale}
++          castShadow
++          receiveShadow
++        >
++          <MeshTransmissionMaterial
++            backside
++            backsideThickness={1.0}
++            thickness={1.5}
++            ior={1.52}
++            roughness={0.02}
++            transmission={1.0}
++            chromaticAberration={0.05}
++            anisotropy={0.1}
++            distortion={0.0}
++            distortionScale={0.0}
++            temporalDistortion={0.0}
++            clearcoat={1.0}
++            clearcoatRoughness={0.0}
++            attenuationDistance={0.5}
++            attenuationColor="#ffffff"
++            color="#ffffff"
++          />
++        </mesh>
++      ))}
++    </group>
++  );
++}
++
+ // ── Glass Rendering with high-fidelity MeshPhysicalMaterial ──
+ function Glass({ type }: { type: keyof typeof MODELS.glasses }) {
+   const glassUrl = MODELS.glasses[type] || MODELS.glasses.highball;
+-
+-  // Custom transparent glass material
+-  const glassMaterial = useRef(
+-    new THREE.MeshPhysicalMaterial({
+-      transmission: 0.98,
+-      roughness: 0.02,
+-      thickness: 1.5,
+-      ior: 1.52,
+-      color: '#ffffff',
+-      transparent: true,
+-      opacity: 1,
+-      side: THREE.DoubleSide,
+-      depthWrite: false, // Prevents transparency sorting bugs
+-    })
+-  );
+-
+-  useEffect(() => {
+-    const mat = glassMaterial.current;
+-    return () => {
+-      mat.dispose();
+-    };
+-  }, []);
+ 
+   // Position offset to align different model pivots
+   let offset: [number, number, number] = [0, -1, 0];
+@@ -124,7 +112,7 @@
+     scale = 1.25;
+   }
+ 
+-  return <GLBLoader url={glassUrl} position={offset} scale={scale} customMaterial={glassMaterial.current} />;
++  return <GlassLoader url={glassUrl} position={offset} scale={scale} />;
+ }
+ 
+ // ── Ice Rendering ──
+@@ -389,28 +377,41 @@
+   const parsedColor = color || '#f59e0b';
+ 
+   // Liquid material with glossy, translucent physical look
+   const liquidMaterial = useRef(
+     new THREE.MeshPhysicalMaterial({
+-      transmission: 0.6,
+-      roughness: 0.1,
+-      thickness: 1.0,
+-      ior: 1.33,
+-      color: parsedColor,
++      transmission: 0.95,
++      roughness: 0.05,
++      thickness: 2.0,
++      ior: 1.333,
++      color: '#ffffff',
++      attenuationColor: parsedColor,
++      attenuationDistance: 0.8,
+       transparent: true,
+-      opacity: 0.9,
++      opacity: 1.0,
+       depthWrite: true,
+     })
+   );
+ 
++  // Dedicated stream material for visibility of the thin falling stream
++  const streamMaterial = useRef(
++    new THREE.MeshPhysicalMaterial({
++      transmission: 0.6,
++      roughness: 0.2,
++      thickness: 0.2,
++      ior: 1.333,
++      color: parsedColor,
++      transparent: true,
++      opacity: 0.9,
++    })
++  );
++
+   useEffect(() => {
+     const mat = liquidMaterial.current;
++    const matStream = streamMaterial.current;
+     return () => {
+       mat.dispose();
++      matStream.dispose();
+     };
+   }, []);
+ 
+   // Update color dynamically when cocktail changes
+   useEffect(() => {
+-    liquidMaterial.current.color.set(parsedColor);
++    liquidMaterial.current.attenuationColor.set(parsedColor);
++    streamMaterial.current.color.set(parsedColor);
+   }, [parsedColor]);
+ 
+   // Handle height (scaling) pour animation using GSAP
+@@ -522,14 +523,16 @@
+   return (
+     <group>
+       {/* Liquid inside the glass */}
+       <mesh
+         ref={liquidRef}
+         position={[0, posY, 0]}
+         material={liquidMaterial.current}
++        castShadow
++        receiveShadow
+       >
+         <cylinderGeometry args={[radTop, radBottom, height, 32]} />
+       </mesh>
+ 
+       {/* Falling pour stream */}
+       <mesh
+         ref={streamRef}
+         position={[0, streamY, 0]}
+-        material={liquidMaterial.current}
++        material={streamMaterial.current}
+         visible={false}
++        castShadow
+       >
+         <cylinderGeometry args={[0.08, 0.08, streamHeight, 8]} />
+       </mesh>
+@@ -556,6 +559,20 @@
+   return <group ref={groupRef}>{children}</group>;
+ }
+ 
++function CameraController() {
++  const { camera, size } = useThree();
++
++  useEffect(() => {
++    const isMobile = size.width < 768;
++    camera.fov = isMobile ? 42 : 35;
++    camera.position.set(0, isMobile ? 1.0 : 0.8, isMobile ? 6.5 : 7.2);
++    camera.updateProjectionMatrix();
++  }, [size.width, size.height, camera]);
++
++  return null;
++}
++
+ // ── Static configuration mapping of the 3D assets to cocktails ──
+ const COCKTAIL_3D_CONFIGS: Record<
+   string,
+@@ -694,6 +711,7 @@
+   return (
+     <div className="absolute inset-0 z-10 w-full h-full pointer-events-auto">
+       <View className="absolute inset-0 z-10 w-full h-full">
+         <Suspense fallback={null}>
++          <CameraController />
+           <RotatingScene>
+             <group position={[0, -0.2, 0]}>
+               {/* Glass container */}
+@@ -717,17 +735,22 @@
+           </RotatingScene>
+ 
+           {/* High-fidelity studio lighting with custom color reflections */}
+-          <ambientLight intensity={0.5} />
++          <ambientLight intensity={0.2} />
+           
+           <directionalLight
++            castShadow
+             position={[5, 10, 5]}
+-            intensity={1.2}
++            intensity={1.5}
+             color={themeColorPrimary}
++            shadow-mapSize={[2048, 2048]}
++            shadow-bias={-0.0001}
++            shadow-camera-far={20}
++            shadow-camera-left={-3}
++            shadow-camera-right={3}
++            shadow-camera-top={3}
++            shadow-camera-bottom={-3}
+           />
+           <directionalLight
+             position={[-5, 5, -5]}
+-            intensity={0.6}
++            intensity={0.4}
+             color={themeColorSecondary}
+           />
+           <pointLight
+@@ -735,5 +758,10 @@
+-            intensity={0.8}
++            intensity={0.6}
+             color={liquidColor}
+           />
++          
++          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.2, 0]} receiveShadow>
++            <planeGeometry args={[20, 20]} />
++            <shadowMaterial opacity={0.3} />
++          </mesh>
+           
+           <OrbitControls
