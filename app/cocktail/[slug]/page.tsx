@@ -4,8 +4,29 @@ import { notFound } from 'next/navigation';
 import ClientCocktailView from './ClientCocktailView';
 import { Metadata } from 'next';
 import { getSimilarCocktails } from '@/utils/recommendations';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 export const revalidate = 60;
+
+// Fix 5: Optimize Page Transition Speed via SSG
+// This queries Supabase at build time to statically generate all cocktail pages
+// so there is zero server-side latency when a user clicks a cocktail card.
+export async function generateStaticParams() {
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data } = await supabase
+    .from('cocktails')
+    .select('slug')
+    .eq('is_published', true);
+
+  if (!data) return [];
+
+  return data.map((cocktail) => ({
+    slug: cocktail.slug,
+  }));
+}
 
 async function getCocktail(slug: string): Promise<Cocktail | null> {
   const supabase = createClient();

@@ -193,6 +193,11 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
               <Link
                 key={cocktail.id}
                 href={`/cocktail/${cocktail.slug}`}
+                prefetch={true}
+                onMouseEnter={() => {
+                  // Preload the heavy Spline library when user hovers over a card
+                  import('@splinetool/react-spline');
+                }}
                 className="group relative flex flex-col justify-between h-[420px] rounded-2xl bg-neutral-900/30 backdrop-blur-md border border-neutral-800/40 overflow-hidden hover:border-neutral-700/60 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.5)] hover:-translate-y-1"
               >
                 {/* Backdrop Image */}
