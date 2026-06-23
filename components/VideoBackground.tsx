@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 interface VideoBackgroundProps {
   src: string;
@@ -12,35 +13,37 @@ export default function VideoBackground({ src, poster, className }: VideoBackgro
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const { capability, hasChecked } = useDeviceCapability();
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // 1. Set up the Intersection Observer
+    if (capability === 'high') {
+      // High-end device: skip observer, load freely
+      setHasLoaded(true);
+      setIsIntersecting(true);
+      return;
+    }
+
+    // Low-end device: Set up the Intersection Observer
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // When the video enters the viewport (or gets within 200px)
             setIsIntersecting(true);
-            setHasLoaded(true); // Flag to permanently attach the 'src'
+            setHasLoaded(true);
             
-            // Resume playback
             video.play().catch((err) => {
               console.warn('Video playback prevented:', err);
             });
           } else {
-            // 3. Pause the video when it leaves the viewport to save CPU/Battery
             setIsIntersecting(false);
             video.pause();
           }
         });
       },
-      { 
-        // Pre-load the video when it is 200px away from scrolling into view
-        rootMargin: '200px 0px' 
-      } 
+      { rootMargin: '200px 0px' } 
     );
 
     observer.observe(video);
@@ -49,39 +52,27 @@ export default function VideoBackground({ src, poster, className }: VideoBackgro
       observer.unobserve(video);
       observer.disconnect();
     };
-  }, []);
+  }, [capability, hasChecked]);
+
+  const isHighEnd = capability === 'high';
 
   return (
     <video
       ref={videoRef}
-      
-      // 2. Lazy Load: Only attach the source URL once it has entered the observer threshold
-      // Otherwise, the browser will eagerly download 20 videos at once.
-      src={hasLoaded ? src : undefined}
-      
-      // Always show the static poster image as the fallback while the video is downloading
+      src={hasLoaded || isHighEnd ? src : undefined}
       poster={poster}
-      
       className={className}
-      
-      // REQUIRED FOR MOBILE AUTOPLAY:
-      autoPlay={isIntersecting}
+      autoPlay={isIntersecting || isHighEnd}
       loop
       muted
       playsInline
-      
-      // ADVANCED/FALLBACK ATTRIBUTES:
-      preload={hasLoaded ? "auto" : "none"} // Prevent background data usage on initial load
+      preload={hasLoaded || isHighEnd ? "auto" : "none"}
       webkit-playsinline="true"
       x5-playsinline="true"
-      
-      // PREVENT USER INTERFERENCE:
       controls={false}
       disablePictureInPicture
-      
-      // FALLBACK LOOPING:
       onEnded={(e) => {
-        if (isIntersecting) {
+        if (isIntersecting || isHighEnd) {
           e.currentTarget.play().catch(() => {});
         }
       }}
