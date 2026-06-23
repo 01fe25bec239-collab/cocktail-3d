@@ -4,6 +4,7 @@ import { Cocktail } from '@/types/cocktail';
 import Link from 'next/link';
 import Image from 'next/image';
 import SplineScene from '@/components/SplineScene';
+import VideoBackground from '@/components/VideoBackground';
 import { useState, useEffect } from 'react';
 
 export default function ClientCocktailView({
@@ -38,20 +39,9 @@ export default function ClientCocktailView({
       {/* Background Media (renders behind everything) */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
         {cocktail.backdrop_video_url && !isReducedMotion ? (
-          <video 
+          <VideoBackground 
             src={cocktail.backdrop_video_url} 
             poster={cocktail.backdrop_image_url || undefined}
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            // Mobile Autoplay Guarantee Attributes
-            preload="auto"
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            controls={false}
-            disablePictureInPicture
-            onEnded={(e) => { e.currentTarget.play().catch(() => {}); }}
             className="absolute inset-0 w-full h-full object-cover opacity-60"
           />
         ) : cocktail.backdrop_image_url ? (
