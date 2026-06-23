@@ -4,6 +4,7 @@ import { useHardwareDetect } from '@/hooks/useHardwareDetect';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { preload } from 'react-dom';
 
 // 4. Lazy Load the Spline Component so it doesn't block the main thread
 // This splits the heavy Spline runtime out of the initial JS bundle
@@ -25,6 +26,10 @@ export default function SplineScene({ sceneUrl, fallbackImageUrl, altText }: Spl
   
   // Track when Spline is fully loaded and ready to play
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
+
+  // Preload the heavy .splinecode binary payload instantly 
+  // so the network starts fetching it before the JS evaluates
+  preload(sceneUrl, { as: 'fetch', crossOrigin: 'anonymous' });
 
   // Prevent hydration mismatch by returning empty or fallback while checking
   if (!hasChecked) {
