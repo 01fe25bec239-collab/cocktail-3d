@@ -54,8 +54,18 @@ export function useDeviceCapability(): { capability: DeviceCapability; hasChecke
           const renderer = (gl as WebGLRenderingContext).getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
           if (renderer) {
             const rendererStr = renderer.toString().toLowerCase();
+            
+            console.log('--- DEVICE CAPABILITY SIGNALS ---');
+            console.log('Hardware Concurrency:', navigator.hardwareConcurrency);
+            console.log('Device Memory:', (navigator as any).deviceMemory);
+            console.log('Connection Type:', (navigator as any).connection?.effectiveType);
+            console.log('WebGL Renderer:', rendererStr);
+            console.log('Device Pixel Ratio:', window.devicePixelRatio);
+            console.log('Screen Width:', screen.width);
+
             if (
               rendererStr.includes('apple m') ||
+              rendererStr.includes('apple gpu') ||
               rendererStr.includes('nvidia') ||
               rendererStr.includes('amd') ||
               rendererStr.includes('intel iris') ||
@@ -79,13 +89,16 @@ export function useDeviceCapability(): { capability: DeviceCapability; hasChecke
     }
 
     // Final Decision Logic
+    let finalCapability: DeviceCapability = 'high';
     if (highCount >= 3) {
-      setCapability('high');
+      finalCapability = 'high';
     } else if (lowCount >= 3) {
-      setCapability('low');
+      finalCapability = 'low';
     } else {
-      setCapability('high'); // Default to high if mixed or missing
+      finalCapability = 'high'; // Default to high if mixed or missing
     }
+    console.log('FINAL CAPABILITY:', finalCapability);
+    setCapability(finalCapability);
 
     setHasChecked(true);
   }, []);
