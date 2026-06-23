@@ -4,7 +4,7 @@ import { Cocktail } from '@/types/cocktail';
 import Link from 'next/link';
 import Image from 'next/image';
 import SplineScene from '@/components/SplineScene';
-import VideoBackground from '@/components/VideoBackground';
+import DoubleBufferedMedia from '@/components/DoubleBufferedMedia';
 import { useState, useEffect } from 'react';
 
 export default function ClientCocktailView({
@@ -15,6 +15,17 @@ export default function ClientCocktailView({
   recommendations: Cocktail[];
 }) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+
+  const preloadVideo = (src?: string) => {
+    if (!src) return;
+    if (document.querySelector(`link[href="${src}"]`)) return; // already preloading
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = src;
+    document.head.appendChild(link);
+  };
 
   useEffect(() => {
     // Check for reduced motion and mobile
@@ -38,21 +49,12 @@ export default function ClientCocktailView({
     >
       {/* Background Media (renders behind everything) */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-        {cocktail.backdrop_video_url && !isReducedMotion ? (
-          <VideoBackground 
-            src={cocktail.backdrop_video_url} 
-            poster={cocktail.backdrop_image_url || undefined}
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
-          />
-        ) : cocktail.backdrop_image_url ? (
-          <Image 
-            src={cocktail.backdrop_image_url} 
-            alt="Backdrop" 
-            fill 
-            className="object-cover opacity-60"
-            priority
-          />
-        ) : null}
+        <DoubleBufferedMedia 
+          src={cocktail.backdrop_video_url || cocktail.backdrop_image_url || ''} 
+          poster={cocktail.backdrop_image_url || undefined}
+          isVideo={!!cocktail.backdrop_video_url}
+          isReducedMotion={isReducedMotion}
+        />
       </div>
 
       {/* Dark gradient scrim behind the text for contrast */}
@@ -104,23 +106,26 @@ export default function ClientCocktailView({
           )}
 
           {/* You Might Also Like section */}
-          {recommendations && recommendations.length > 0 && (
-            <div className="mb-8 mt-4 pt-6 border-t border-neutral-800/60">
-              <h3 className="text-xs uppercase tracking-widest text-neutral-400 font-bold mb-4 drop-shadow-md">You Might Also Like</h3>
+          <div className="mb-8 mt-4 pt-6 border-t border-neutral-800/60">
+            <h3 className="text-xs uppercase tracking-widest text-neutral-400 font-bold mb-4 drop-shadow-md">You Might Also Like</h3>
+            {recommendations && recommendations.length > 0 ? (
               <div className="grid grid-cols-3 gap-3">
                 {recommendations.map(rec => (
                   <Link 
                     key={rec.id} 
                     href={`/cocktail/${rec.slug}`}
                     className="flex flex-col rounded-xl overflow-hidden bg-neutral-900/60 border border-neutral-800/50 hover:border-neutral-700/60 transition-all p-3 text-center"
+                    onMouseEnter={() => preloadVideo(rec.backdrop_video_url || undefined)}
+                    onTouchStart={() => preloadVideo(rec.backdrop_video_url || undefined)}
                   >
                     <div className="relative w-full h-16 rounded-lg overflow-hidden mb-2 bg-neutral-950">
-                      {rec.backdrop_image_url ? (
+                      {rec.backdrop_image_url && !imgErrors[rec.id] ? (
                         <Image 
                           src={rec.backdrop_image_url} 
                           alt={rec.name}
                           fill
                           className="object-cover brightness-75"
+                          onError={() => setImgErrors(prev => ({ ...prev, [rec.id]: true }))}
                         />
                       ) : (
                         <div className="w-full h-full bg-neutral-800" />
@@ -135,8 +140,12 @@ export default function ClientCocktailView({
                   </Link>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <Link href="/" className="block w-full py-4 text-center border border-neutral-800 rounded-xl text-sm font-semibold text-neutral-300 bg-neutral-900/50 hover:bg-neutral-800 transition-colors">
+                See All Cocktails
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Footer meta info within the left column */}
@@ -165,6 +174,12 @@ export default function ClientCocktailView({
             altText={cocktail.name} 
           />
         ) : null}
+        
+        {/* Spline Watermark Corner Cover */}
+        <div 
+          className="absolute bottom-0 right-0 w-40 h-12 pointer-events-none z-10"
+          style={{ background: 'linear-gradient(to bottom right, transparent, #0a0a0a)' }}
+        />
       </div>
     </div>
   );

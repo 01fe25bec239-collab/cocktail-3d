@@ -7,9 +7,10 @@ interface VideoBackgroundProps {
   src: string;
   poster?: string;
   className?: string;
+  onCanPlay?: () => void;
 }
 
-export default function VideoBackground({ src, poster, className }: VideoBackgroundProps) {
+export default function VideoBackground({ src, poster, className, onCanPlay }: VideoBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -71,6 +72,7 @@ export default function VideoBackground({ src, poster, className }: VideoBackgro
       x5-playsinline="true"
       controls={false}
       disablePictureInPicture
+      onCanPlay={onCanPlay}
       onEnded={(e) => {
         if (isIntersecting || isHighEnd) {
           e.currentTarget.play().catch(() => {});

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://cocktail-3d.netlify.app
+
+# Sitemaps
+Sitemap: https://cocktail-3d.netlify.app/sitemap.xml

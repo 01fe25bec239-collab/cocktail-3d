@@ -1,0 +1,738 @@
+[
+  {
+    "id": "058c986b-3eaf-4f12-9115-13998519e76e",
+    "slug": "gin-and-tonic-botanical-conservatory",
+    "name": "Gin & Tonic",
+    "order_index": 17,
+    "is_published": true,
+    "vibe_title": "Botanical Conservatory",
+    "description": "Sunlight streams through a glass greenhouse filled with exotic plants. Dew particles sparkle among lush greenery and natural pathways. The environment feels fresh, bright, and alive.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": "50ml"
+      },
+      {
+        "name": "Tonic Water",
+        "amount": "150ml"
+      },
+      {
+        "name": "Lime Wedge",
+        "amount": "1"
+      }
+    ],
+    "taste_notes": "Crisp and highly carbonated with a refreshing bite. The finish is dry, cooling, and clean.",
+    "glass_type": "Balloon Glass",
+    "abv": 10,
+    "theme_color_primary": "#DFF6D8",
+    "theme_color_secondary": "#F6FFF0",
+    "liquid_color": "#F5FFF5",
+    "backdrop_video_url": "/assets/videos/gin-and-tonic-botanical-conservatory.mp4",
+    "backdrop_image_url": "/assets/images/gin-and-tonic-botanical-conservatory.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "1d5fdc9a-40d9-4aad-87b8-ba64267d7990",
+    "slug": "long-island-iced-tea-house-party",
+    "name": "Long Island Iced Tea",
+    "order_index": 11,
+    "is_published": true,
+    "vibe_title": "House Party",
+    "description": "Colorful party lights flash across a packed dance floor. Music fills the room while friends gather around and celebrate. The atmosphere is loud, energetic, and unforgettable.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": "15ml"
+      },
+      {
+        "name": "Gin",
+        "amount": "15ml"
+      },
+      {
+        "name": "Rum",
+        "amount": "15ml"
+      },
+      {
+        "name": "Tequila",
+        "amount": "15ml"
+      },
+      {
+        "name": "Triple Sec",
+        "amount": "15ml"
+      },
+      {
+        "name": "Cola",
+        "amount": "Top up"
+      }
+    ],
+    "taste_notes": "Chilled and surprisingly smooth despite its strength. The finish is long and warming with a slight cola fizz.",
+    "glass_type": "Highball",
+    "abv": 22,
+    "theme_color_primary": "#7A4BFF",
+    "theme_color_secondary": "#FF4D6D",
+    "liquid_color": "#8B5E3C",
+    "backdrop_video_url": "/assets/videos/long-island-iced-tea-house-party.mp4",
+    "backdrop_image_url": "/assets/images/long-island-iced-tea-house-party.png",
+    "spline_scene_url": null,
+    "particle_effect": "neon",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "2a190bd0-8be0-40c9-bfed-40fe16fa676d",
+    "slug": "old-fashioned-gentlemans-club",
+    "name": "Old Fashioned",
+    "order_index": 4,
+    "is_published": true,
+    "vibe_title": "Gentleman's Club",
+    "description": "Dark wood furniture surrounds a fireplace glowing softly in the background. Vintage books line the shelves while traces of smoke drift through the room. The mood is timeless and refined.",
+    "ingredients": [
+      {
+        "name": "Bourbon",
+        "amount": "60ml"
+      },
+      {
+        "name": "Sugar Cube",
+        "amount": "1"
+      },
+      {
+        "name": "Angostura Bitters",
+        "amount": "2 dashes"
+      }
+    ],
+    "taste_notes": "Dense and spirit-forward with a smooth, slow texture. The finish is long, warm, and slightly oily across the palate.",
+    "glass_type": "Rocks",
+    "abv": 32,
+    "theme_color_primary": "#1E1814",
+    "theme_color_secondary": "#8B5A2B",
+    "liquid_color": "#B36B2C",
+    "backdrop_video_url": "/assets/videos/old-fashioned-gentlemans-club.mp4",
+    "backdrop_image_url": "/assets/images/old-fashioned-gentlemans-club.png",
+    "spline_scene_url": null,
+    "particle_effect": "none",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "3784883d-d5b2-4996-9a9c-18a805c96c24",
+    "slug": "margarita-neon-rooftop-party",
+    "name": "Margarita",
+    "order_index": 2,
+    "is_published": true,
+    "vibe_title": "Neon Rooftop Party",
+    "description": "A rooftop skyline pulses with neon signs and moving spotlights. The DJ keeps the energy high as the city glows beneath the night sky. Every corner feels electric and alive.",
+    "ingredients": [
+      {
+        "name": "Tequila",
+        "amount": "50ml"
+      },
+      {
+        "name": "Triple Sec",
+        "amount": "25ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "25ml"
+      }
+    ],
+    "taste_notes": "Extremely cold with a sharp citrus snap. The salted rim contrasts against a clean, dry finish that leaves the palate energized.",
+    "glass_type": "Coupe",
+    "abv": 22,
+    "theme_color_primary": "#FF2DAA",
+    "theme_color_secondary": "#00F7FF",
+    "liquid_color": "#DFF9C8",
+    "backdrop_video_url": "/assets/videos/margarita-neon-rooftop-party.mp4",
+    "backdrop_image_url": "/assets/images/margarita-neon-rooftop-party.png",
+    "spline_scene_url": null,
+    "particle_effect": "neon",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "396a1b85-2d94-45fb-8c4f-c8cff4c417e6",
+    "slug": "cosmopolitan-luxury-hotel-bar",
+    "name": "Cosmopolitan",
+    "order_index": 3,
+    "is_published": true,
+    "vibe_title": "Luxury Hotel Bar",
+    "description": "Pink ambient lighting reflects across polished marble counters and crystal surfaces. The skyline sparkles beyond expansive windows. Sophisticated conversations blend into the glamorous atmosphere.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": "45ml"
+      },
+      {
+        "name": "Triple Sec",
+        "amount": "15ml"
+      },
+      {
+        "name": "Cranberry Juice",
+        "amount": "30ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "10ml"
+      }
+    ],
+    "taste_notes": "Smooth and chilled with a light, elegant body. The finish feels crisp and polished with gentle citrus brightness.",
+    "glass_type": "Martini",
+    "abv": 20,
+    "theme_color_primary": "#F7B6C8",
+    "theme_color_secondary": "#E8D8F5",
+    "liquid_color": "#F29AB2",
+    "backdrop_video_url": "/assets/videos/cosmopolitan-luxury-hotel-bar.mp4",
+    "backdrop_image_url": "/assets/images/cosmopolitan-luxury-hotel-bar.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "4a889551-4150-40e6-a8fe-ede87c1d39ba",
+    "slug": "aperol-spritz-italian-summer-evening",
+    "name": "Aperol Spritz",
+    "order_index": 7,
+    "is_published": true,
+    "vibe_title": "Italian Summer Evening",
+    "description": "A sunlit terrace overlooks charming streets lined with vines and warm lanterns. The sky glows orange as evening settles across the city. Laughter and conversation fill the air.",
+    "ingredients": [
+      {
+        "name": "Aperol",
+        "amount": "90ml"
+      },
+      {
+        "name": "Prosecco",
+        "amount": "60ml"
+      },
+      {
+        "name": "Soda Water",
+        "amount": "30ml"
+      }
+    ],
+    "taste_notes": "Lightly sparkling and refreshing with lively bubbles. The finish remains bright and airy with a pleasant dryness.",
+    "glass_type": "Wine Glass",
+    "abv": 11,
+    "theme_color_primary": "#FFB25C",
+    "theme_color_secondary": "#FFDDA1",
+    "liquid_color": "#FF7D29",
+    "backdrop_video_url": "/assets/videos/aperol-spritz-italian-summer-evening.mp4",
+    "backdrop_image_url": "/assets/images/aperol-spritz-italian-summer-evening.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "718f7f4d-3bb5-4e37-ba24-424c4ff08b66",
+    "slug": "espresso-martini-midnight-work-session",
+    "name": "Espresso Martini",
+    "order_index": 6,
+    "is_published": true,
+    "vibe_title": "Midnight Work Session",
+    "description": "A designer desk glows under laptop light while the city skyline stretches into the darkness. Fresh coffee aromas linger in the air. Creativity and focus drive the late-night atmosphere.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": "50ml"
+      },
+      {
+        "name": "Espresso",
+        "amount": "30ml"
+      },
+      {
+        "name": "Coffee Liqueur",
+        "amount": "20ml"
+      }
+    ],
+    "taste_notes": "Cold and velvety with a creamy foam cap. The finish is rich, smooth, and slightly drying from the coffee.",
+    "glass_type": "Martini",
+    "abv": 18,
+    "theme_color_primary": "#1F232B",
+    "theme_color_secondary": "#8B6A45",
+    "liquid_color": "#4A2E1F",
+    "backdrop_video_url": "/assets/videos/espresso-martini-midnight-work-session.mp4",
+    "backdrop_image_url": "/assets/images/espresso-martini-midnight-work-session.png",
+    "spline_scene_url": null,
+    "particle_effect": "none",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "73deb65a-83e2-4277-8ab8-b610dc0d3085",
+    "slug": "mimosa-luxury-brunch",
+    "name": "Mimosa",
+    "order_index": 16,
+    "is_published": true,
+    "vibe_title": "Luxury Brunch",
+    "description": "An elegant rooftop breakfast setting shines under bright morning sunlight. Fresh flowers decorate beautifully arranged tables. The atmosphere feels sophisticated, cheerful, and effortless.",
+    "ingredients": [
+      {
+        "name": "Champagne",
+        "amount": "75ml"
+      },
+      {
+        "name": "Orange Juice",
+        "amount": "75ml"
+      }
+    ],
+    "taste_notes": "Light-bodied and sparkling with delicate bubbles. The finish is clean, uplifting, and refreshing.",
+    "glass_type": "Flute",
+    "abv": 8,
+    "theme_color_primary": "#FFF5D6",
+    "theme_color_secondary": "#FFE08A",
+    "liquid_color": "#FFD76A",
+    "backdrop_video_url": "/assets/videos/mimosa-luxury-brunch.mp4",
+    "backdrop_image_url": "/assets/images/mimosa-luxury-brunch.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "79891eac-59fc-444a-baba-52d38fc7f732",
+    "slug": "moscow-mule-winter-cabin",
+    "name": "Moscow Mule",
+    "order_index": 14,
+    "is_published": true,
+    "vibe_title": "Winter Cabin",
+    "description": "Snow falls gently outside a cozy wooden cabin. Firelight reflects off polished copper surfaces while warmth fills the room. The contrast between winter and comfort defines the scene.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": "50ml"
+      },
+      {
+        "name": "Ginger Beer",
+        "amount": "120ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "15ml"
+      }
+    ],
+    "taste_notes": "Very cold and effervescent with a lively ginger bite. The finish tingles pleasantly and remains refreshing.",
+    "glass_type": "Copper Mug",
+    "abv": 11,
+    "theme_color_primary": "#DCEAF5",
+    "theme_color_secondary": "#B87333",
+    "liquid_color": "#F2D38A",
+    "backdrop_video_url": "/assets/videos/moscow-mule-winter-cabin.mp4",
+    "backdrop_image_url": "/assets/images/moscow-mule-winter-cabin.png",
+    "spline_scene_url": null,
+    "particle_effect": "snow",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "90e99d48-78a4-4935-8262-0a7bf5e6ba92",
+    "slug": "mojito-tropical-escape",
+    "name": "Mojito",
+    "order_index": 0,
+    "is_published": true,
+    "vibe_title": "Tropical Escape",
+    "description": "A wooden beach table overlooks the ocean horizon as palm trees sway under a golden sunset. Slow waves roll onto the shore while distant seagulls drift across the sky. The atmosphere feels refreshing, calm, and endlessly relaxing.",
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "amount": "60ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "30ml"
+      },
+      {
+        "name": "Mint Leaves",
+        "amount": "10 leaves"
+      },
+      {
+        "name": "Sugar Syrup",
+        "amount": "15ml"
+      },
+      {
+        "name": "Soda Water",
+        "amount": "Top up"
+      }
+    ],
+    "taste_notes": "Served ice-cold with a crisp, sparkling texture. Mint creates a cooling sensation while the finish remains light, clean, and refreshing.",
+    "glass_type": "Highball",
+    "abv": 12,
+    "theme_color_primary": "#6FD6B2",
+    "theme_color_secondary": "#FFD27A",
+    "liquid_color": "#CFF7E6",
+    "backdrop_video_url": "/assets/videos/mojito-tropical-escape.mp4",
+    "backdrop_image_url": "/assets/images/mojito-tropical-escape.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "921eda43-23d0-46ce-b732-5c0a65dad37b",
+    "slug": "strawberry-daiquiri-spring-garden",
+    "name": "Strawberry Daiquiri",
+    "order_index": 9,
+    "is_published": true,
+    "vibe_title": "Spring Garden",
+    "description": "Morning sunlight pours through blooming flowers and fresh greenery. Butterflies drift across the garden while dew sparkles on leaves. Everything feels vibrant and full of life.",
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "amount": "45ml"
+      },
+      {
+        "name": "Strawberries",
+        "amount": "80g"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "20ml"
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": "15ml"
+      }
+    ],
+    "taste_notes": "Frozen and slushy with a soft fruit texture. The finish is cool, juicy, and refreshing.",
+    "glass_type": "Coupe",
+    "abv": 12,
+    "theme_color_primary": "#FFE8EF",
+    "theme_color_secondary": "#B7F5B2",
+    "liquid_color": "#F65B78",
+    "backdrop_video_url": "/assets/videos/strawberry-daiquiri-spring-garden.mp4",
+    "backdrop_image_url": "/assets/images/strawberry-daiquiri-spring-garden.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "9f891f5a-3719-410f-b2e9-03b961b77560",
+    "slug": "whiskey-sour-rainy-luxury-lounge",
+    "name": "Whiskey Sour",
+    "order_index": 1,
+    "is_published": true,
+    "vibe_title": "Rainy Luxury Lounge",
+    "description": "Rain taps gently against floor-to-ceiling windows beside a dark oak table. Warm amber lamps glow across leather chairs while jazz drifts through the room. City lights shimmer through the storm outside.",
+    "ingredients": [
+      {
+        "name": "Bourbon",
+        "amount": "60ml"
+      },
+      {
+        "name": "Lemon Juice",
+        "amount": "30ml"
+      },
+      {
+        "name": "Simple Syrup",
+        "amount": "15ml"
+      },
+      {
+        "name": "Egg White",
+        "amount": "20ml"
+      }
+    ],
+    "taste_notes": "Silky and velvety from the foam layer, chilled but comforting. The finish is smooth with lingering warmth from the whiskey.",
+    "glass_type": "Rocks",
+    "abv": 18,
+    "theme_color_primary": "#2E3138",
+    "theme_color_secondary": "#A8733D",
+    "liquid_color": "#D6A05A",
+    "backdrop_video_url": "/assets/videos/whiskey-sour-rainy-luxury-lounge.mp4",
+    "backdrop_image_url": "/assets/images/whiskey-sour-rainy-luxury-lounge.png",
+    "spline_scene_url": null,
+    "particle_effect": "rain",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "a0a52a76-e326-4308-b9a6-52a2e0b771bc",
+    "slug": "mai-tai-tiki-paradise",
+    "name": "Mai Tai",
+    "order_index": 10,
+    "is_published": true,
+    "vibe_title": "Tiki Paradise",
+    "description": "Bamboo tables sit beneath swaying palms as torches illuminate the tropical night. A volcano island glows in the distance beyond dense jungle scenery. Adventure and celebration define the mood.",
+    "ingredients": [
+      {
+        "name": "Dark Rum",
+        "amount": "30ml"
+      },
+      {
+        "name": "White Rum",
+        "amount": "30ml"
+      },
+      {
+        "name": "Orange Curaçao",
+        "amount": "15ml"
+      },
+      {
+        "name": "Orgeat Syrup",
+        "amount": "15ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "25ml"
+      }
+    ],
+    "taste_notes": "Smooth with layered textures from citrus and rum. The finish is warm and slightly rich without feeling heavy.",
+    "glass_type": "Rocks",
+    "abv": 20,
+    "theme_color_primary": "#D46B2D",
+    "theme_color_secondary": "#2F7D3B",
+    "liquid_color": "#C97A3A",
+    "backdrop_video_url": "/assets/videos/mai-tai-tiki-paradise.mp4",
+    "backdrop_image_url": "/assets/images/mai-tai-tiki-paradise.png",
+    "spline_scene_url": null,
+    "particle_effect": "fire",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "ab29795a-0350-48ce-bb04-71342f7faff3",
+    "slug": "pina-colada-maldives-resort",
+    "name": "Piña Colada",
+    "order_index": 5,
+    "is_published": true,
+    "vibe_title": "Maldives Resort",
+    "description": "An infinity pool merges seamlessly into turquoise ocean waters. Tropical breezes move across a floating deck as sunset reflections dance on the surface. Every detail feels luxurious and carefree.",
+    "ingredients": [
+      {
+        "name": "White Rum",
+        "amount": "50ml"
+      },
+      {
+        "name": "Coconut Cream",
+        "amount": "50ml"
+      },
+      {
+        "name": "Pineapple Juice",
+        "amount": "100ml"
+      }
+    ],
+    "taste_notes": "Thick, icy, and creamy with a frozen-smooth texture. The finish is soft and cooling with lingering tropical richness.",
+    "glass_type": "Hurricane",
+    "abv": 13,
+    "theme_color_primary": "#9EE7F2",
+    "theme_color_secondary": "#FFF1B8",
+    "liquid_color": "#FFF4C9",
+    "backdrop_video_url": "/assets/videos/pina-colada-maldives-resort.mp4",
+    "backdrop_image_url": "/assets/images/pina-colada-maldives-resort.png",
+    "spline_scene_url": "",
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "b26ceda3-8e4b-4486-8b6f-d90b2c0b1681",
+    "slug": "sangria-spanish-courtyard",
+    "name": "Sangria",
+    "order_index": 13,
+    "is_published": true,
+    "vibe_title": "Spanish Courtyard",
+    "description": "Stone architecture surrounds a courtyard lit by hanging lanterns. Vineyard views stretch beyond the walls while live guitar music fills the evening air. The setting feels warm and welcoming.",
+    "ingredients": [
+      {
+        "name": "Red Wine",
+        "amount": "150ml"
+      },
+      {
+        "name": "Orange Juice",
+        "amount": "50ml"
+      },
+      {
+        "name": "Brandy",
+        "amount": "25ml"
+      },
+      {
+        "name": "Mixed Fruit",
+        "amount": "80g"
+      }
+    ],
+    "taste_notes": "Cool and juicy with fruit pieces adding texture. The finish is smooth and pleasantly refreshing.",
+    "glass_type": "Wine Glass",
+    "abv": 11,
+    "theme_color_primary": "#A33D4B",
+    "theme_color_secondary": "#F0C57B",
+    "liquid_color": "#8C1D40",
+    "backdrop_video_url": "/assets/videos/sangria-spanish-courtyard.mp4",
+    "backdrop_image_url": "/assets/images/sangria-spanish-courtyard.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "baba6366-53ba-4731-9851-873be9a23118",
+    "slug": "passion-fruit-martini-dubai-sky-lounge",
+    "name": "Passion Fruit Martini",
+    "order_index": 19,
+    "is_published": true,
+    "vibe_title": "Dubai Sky Lounge",
+    "description": "A luxury rooftop lounge overlooks a dazzling skyline filled with modern architecture. Gold accents and reflective surfaces catch the city lights from every angle. The experience feels glamorous and exclusive.",
+    "ingredients": [
+      {
+        "name": "Vanilla Vodka",
+        "amount": "40ml"
+      },
+      {
+        "name": "Passion Fruit Purée",
+        "amount": "40ml"
+      },
+      {
+        "name": "Passion Fruit Liqueur",
+        "amount": "20ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "10ml"
+      }
+    ],
+    "taste_notes": "Smooth and chilled with a velvety texture. The finish is vibrant, silky, and lightly warming.",
+    "glass_type": "Martini",
+    "abv": 17,
+    "theme_color_primary": "#F7D27A",
+    "theme_color_secondary": "#FFF2D6",
+    "liquid_color": "#F5B53F",
+    "backdrop_video_url": "/assets/videos/passion-fruit-martini-dubai-sky-lounge.mp4",
+    "backdrop_image_url": "/assets/images/passion-fruit-martini-dubai-sky-lounge.png",
+    "spline_scene_url": null,
+    "particle_effect": "bokeh",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "d1e0e346-9d6a-4752-8018-965bb2b87b98",
+    "slug": "dark-and-stormy-storm-watching-deck",
+    "name": "Dark & Stormy",
+    "order_index": 18,
+    "is_published": true,
+    "vibe_title": "Storm Watching Deck",
+    "description": "Dark clouds gather above crashing ocean waves beside a weathered wooden pier. Lightning flashes illuminate the horizon in brief moments of brilliance. The atmosphere feels dramatic and powerful.",
+    "ingredients": [
+      {
+        "name": "Dark Rum",
+        "amount": "50ml"
+      },
+      {
+        "name": "Ginger Beer",
+        "amount": "120ml"
+      }
+    ],
+    "taste_notes": "Cold and fizzy with a strong ginger kick. The finish is deep, warming, and slightly spicy.",
+    "glass_type": "Highball",
+    "abv": 13,
+    "theme_color_primary": "#202A36",
+    "theme_color_secondary": "#6E7C8A",
+    "liquid_color": "#4A2F24",
+    "backdrop_video_url": "/assets/videos/dark-and-stormy-storm-watching-deck.mp4",
+    "backdrop_image_url": "/assets/images/dark-and-stormy-storm-watching-deck.png",
+    "spline_scene_url": null,
+    "particle_effect": "rain",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "dd0f7444-0467-4d6a-805f-e64cfc53782a",
+    "slug": "paloma-desert-sunset",
+    "name": "Paloma",
+    "order_index": 15,
+    "is_published": true,
+    "vibe_title": "Desert Sunset",
+    "description": "Cactus silhouettes stand against a glowing orange horizon above canyon landscapes. Warm winds sweep through the desert as daylight slowly fades. The mood is peaceful yet adventurous.",
+    "ingredients": [
+      {
+        "name": "Tequila",
+        "amount": "50ml"
+      },
+      {
+        "name": "Grapefruit Soda",
+        "amount": "120ml"
+      },
+      {
+        "name": "Lime Juice",
+        "amount": "15ml"
+      }
+    ],
+    "taste_notes": "Bright and sparkling with a refreshing carbonation. The finish is crisp, clean, and thirst-quenching.",
+    "glass_type": "Highball",
+    "abv": 10,
+    "theme_color_primary": "#FFB46A",
+    "theme_color_secondary": "#FF7A59",
+    "liquid_color": "#FFD0A3",
+    "backdrop_video_url": "/assets/videos/paloma-desert-sunset.mp4",
+    "backdrop_image_url": "/assets/images/paloma-desert-sunset.png",
+    "spline_scene_url": null,
+    "particle_effect": "none",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "f0c7a9d9-04b7-4724-a04c-6ff3b41d823c",
+    "slug": "martini-james-bond-night",
+    "name": "Martini",
+    "order_index": 12,
+    "is_published": true,
+    "vibe_title": "James Bond Night",
+    "description": "A luxury penthouse overlooks a moonlit skyline through floor-to-ceiling glass. Black marble surfaces reflect subtle lighting and minimalist design. Every detail suggests confidence and precision.",
+    "ingredients": [
+      {
+        "name": "Gin",
+        "amount": "60ml"
+      },
+      {
+        "name": "Dry Vermouth",
+        "amount": "10ml"
+      }
+    ],
+    "taste_notes": "Extremely cold and crystal-clear with a sleek, dry texture. The finish is sharp, clean, and elegant.",
+    "glass_type": "Martini",
+    "abv": 30,
+    "theme_color_primary": "#111318",
+    "theme_color_secondary": "#B6BDC7",
+    "liquid_color": "#F6F7F2",
+    "backdrop_video_url": "/assets/videos/martini-james-bond-night.mp4",
+    "backdrop_image_url": "/assets/images/martini-james-bond-night.png",
+    "spline_scene_url": null,
+    "particle_effect": "none",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  },
+  {
+    "id": "fd564fb8-6623-4a3a-a830-c10ea26db421",
+    "slug": "blue-lagoon-futuristic-ocean-bar",
+    "name": "Blue Lagoon",
+    "order_index": 8,
+    "is_published": true,
+    "vibe_title": "Futuristic Ocean Bar",
+    "description": "Neon blue lighting reflects through glass floors above digital waves. Holographic elements pulse around the room. The setting feels like a luxury destination from the future.",
+    "ingredients": [
+      {
+        "name": "Vodka",
+        "amount": "45ml"
+      },
+      {
+        "name": "Blue Curaçao",
+        "amount": "20ml"
+      },
+      {
+        "name": "Lemonade",
+        "amount": "100ml"
+      }
+    ],
+    "taste_notes": "Ice-cold and crisp with a clean, refreshing mouthfeel. The finish is bright and slightly sparkling.",
+    "glass_type": "Highball",
+    "abv": 10,
+    "theme_color_primary": "#00CFFF",
+    "theme_color_secondary": "#7C4DFF",
+    "liquid_color": "#00BFFF",
+    "backdrop_video_url": "/assets/videos/blue-lagoon-futuristic-ocean-bar.mp4",
+    "backdrop_image_url": "/assets/images/blue-lagoon-futuristic-ocean-bar.png",
+    "spline_scene_url": null,
+    "particle_effect": "neon",
+    "created_at": "2026-06-22T00:26:46.52181+00:00",
+    "updated_at": "2026-06-22T00:26:46.52181+00:00"
+  }
+]

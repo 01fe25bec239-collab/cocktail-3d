@@ -34,7 +34,7 @@
     "liquid_color": "#CFF7E6",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/mojito-tropical-escape.mp4",
-    "backdrop_image_url": "/assets/images/mojito-tropical-escape.png"
+    "backdrop_image_url": "/assets/images/mojito-tropical-escape.webp"
   },
   {
     "slug": "whiskey-sour-rainy-luxury-lounge",
@@ -67,7 +67,7 @@
     "liquid_color": "#D6A05A",
     "particle_effect": "rain",
     "backdrop_video_url": "/assets/videos/whiskey-sour-rainy-luxury-lounge.mp4",
-    "backdrop_image_url": "/assets/images/whiskey-sour-rainy-luxury-lounge.png"
+    "backdrop_image_url": "/assets/images/whiskey-sour-rainy-luxury-lounge.webp"
   },
   {
     "slug": "margarita-neon-rooftop-party",
@@ -96,7 +96,7 @@
     "liquid_color": "#DFF9C8",
     "particle_effect": "neon",
     "backdrop_video_url": "/assets/videos/margarita-neon-rooftop-party.mp4",
-    "backdrop_image_url": "/assets/images/margarita-neon-rooftop-party.png"
+    "backdrop_image_url": "/assets/images/margarita-neon-rooftop-party.webp"
   },
   {
     "slug": "cosmopolitan-luxury-hotel-bar",
@@ -129,7 +129,7 @@
     "liquid_color": "#F29AB2",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/cosmopolitan-luxury-hotel-bar.mp4",
-    "backdrop_image_url": "/assets/images/cosmopolitan-luxury-hotel-bar.png"
+    "backdrop_image_url": "/assets/images/cosmopolitan-luxury-hotel-bar.webp"
   },
   {
     "slug": "old-fashioned-gentlemans-club",
@@ -158,11 +158,11 @@
     "liquid_color": "#B36B2C",
     "particle_effect": "none",
     "backdrop_video_url": "/assets/videos/old-fashioned-gentlemans-club.mp4",
-    "backdrop_image_url": "/assets/images/old-fashioned-gentlemans-club.png"
+    "backdrop_image_url": "/assets/images/old-fashioned-gentlemans-club.webp"
   },
   {
     "slug": "pina-colada-maldives-resort",
-    "name": "Piña Colada",
+    "name": "Pi\u00f1a Colada",
     "vibe_title": "Maldives Resort",
     "description": "An infinity pool merges seamlessly into turquoise ocean waters. Tropical breezes move across a floating deck as sunset reflections dance on the surface. Every detail feels luxurious and carefree.",
     "ingredients": [
@@ -187,7 +187,7 @@
     "liquid_color": "#FFF4C9",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/pina-colada-maldives-resort.mp4",
-    "backdrop_image_url": "/assets/images/pina-colada-maldives-resort.png"
+    "backdrop_image_url": "/assets/images/pina-colada-maldives-resort.webp"
   },
   {
     "slug": "espresso-martini-midnight-work-session",
@@ -216,7 +216,7 @@
     "liquid_color": "#4A2E1F",
     "particle_effect": "none",
     "backdrop_video_url": "/assets/videos/espresso-martini-midnight-work-session.mp4",
-    "backdrop_image_url": "/assets/images/espresso-martini-midnight-work-session.png"
+    "backdrop_image_url": "/assets/images/espresso-martini-midnight-work-session.webp"
   },
   {
     "slug": "aperol-spritz-italian-summer-evening",
@@ -245,7 +245,7 @@
     "liquid_color": "#FF7D29",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/aperol-spritz-italian-summer-evening.mp4",
-    "backdrop_image_url": "/assets/images/aperol-spritz-italian-summer-evening.png"
+    "backdrop_image_url": "/assets/images/aperol-spritz-italian-summer-evening.webp"
   },
   {
     "slug": "blue-lagoon-futuristic-ocean-bar",
@@ -258,7 +258,7 @@
         "amount": "45ml"
       },
       {
-        "name": "Blue Curaçao",
+        "name": "Blue Cura\u00e7ao",
         "amount": "20ml"
       },
       {
@@ -274,7 +274,7 @@
     "liquid_color": "#00BFFF",
     "particle_effect": "neon",
     "backdrop_video_url": "/assets/videos/blue-lagoon-futuristic-ocean-bar.mp4",
-    "backdrop_image_url": "/assets/images/blue-lagoon-futuristic-ocean-bar.png"
+    "backdrop_image_url": "/assets/images/blue-lagoon-futuristic-ocean-bar.webp"
   },
   {
     "slug": "strawberry-daiquiri-spring-garden",
@@ -307,7 +307,7 @@
     "liquid_color": "#F65B78",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/strawberry-daiquiri-spring-garden.mp4",
-    "backdrop_image_url": "/assets/images/strawberry-daiquiri-spring-garden.png"
+    "backdrop_image_url": "/assets/images/strawberry-daiquiri-spring-garden.webp"
   },
   {
     "slug": "mai-tai-tiki-paradise",
@@ -324,7 +324,7 @@
         "amount": "30ml"
       },
       {
-        "name": "Orange Curaçao",
+        "name": "Orange Cura\u00e7ao",
         "amount": "15ml"
       },
       {
@@ -344,7 +344,7 @@
     "liquid_color": "#C97A3A",
     "particle_effect": "fire",
     "backdrop_video_url": "/assets/videos/mai-tai-tiki-paradise.mp4",
-    "backdrop_image_url": "/assets/images/mai-tai-tiki-paradise.png"
+    "backdrop_image_url": "/assets/images/mai-tai-tiki-paradise.webp"
   },
   {
     "slug": "long-island-iced-tea-house-party",
@@ -385,7 +385,7 @@
     "liquid_color": "#8B5E3C",
     "particle_effect": "neon",
     "backdrop_video_url": "/assets/videos/long-island-iced-tea-house-party.mp4",
-    "backdrop_image_url": "/assets/images/long-island-iced-tea-house-party.png"
+    "backdrop_image_url": "/assets/images/long-island-iced-tea-house-party.webp"
   },
   {
     "slug": "martini-james-bond-night",
@@ -410,7 +410,7 @@
     "liquid_color": "#F6F7F2",
     "particle_effect": "none",
     "backdrop_video_url": "/assets/videos/martini-james-bond-night.mp4",
-    "backdrop_image_url": "/assets/images/martini-james-bond-night.png"
+    "backdrop_image_url": "/assets/images/martini-james-bond-night.webp"
   },
   {
     "slug": "sangria-spanish-courtyard",
@@ -443,7 +443,7 @@
     "liquid_color": "#8C1D40",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/sangria-spanish-courtyard.mp4",
-    "backdrop_image_url": "/assets/images/sangria-spanish-courtyard.png"
+    "backdrop_image_url": "/assets/images/sangria-spanish-courtyard.webp"
   },
   {
     "slug": "moscow-mule-winter-cabin",
@@ -472,7 +472,7 @@
     "liquid_color": "#F2D38A",
     "particle_effect": "snow",
     "backdrop_video_url": "/assets/videos/moscow-mule-winter-cabin.mp4",
-    "backdrop_image_url": "/assets/images/moscow-mule-winter-cabin.png"
+    "backdrop_image_url": "/assets/images/moscow-mule-winter-cabin.webp"
   },
   {
     "slug": "paloma-desert-sunset",
@@ -501,7 +501,7 @@
     "liquid_color": "#FFD0A3",
     "particle_effect": "none",
     "backdrop_video_url": "/assets/videos/paloma-desert-sunset.mp4",
-    "backdrop_image_url": "/assets/images/paloma-desert-sunset.png"
+    "backdrop_image_url": "/assets/images/paloma-desert-sunset.webp"
   },
   {
     "slug": "mimosa-luxury-brunch",
@@ -526,7 +526,7 @@
     "liquid_color": "#FFD76A",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/mimosa-luxury-brunch.mp4",
-    "backdrop_image_url": "/assets/images/mimosa-luxury-brunch.png"
+    "backdrop_image_url": "/assets/images/mimosa-luxury-brunch.webp"
   },
   {
     "slug": "gin-and-tonic-botanical-conservatory",
@@ -555,7 +555,7 @@
     "liquid_color": "#F5FFF5",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/gin-and-tonic-botanical-conservatory.mp4",
-    "backdrop_image_url": "/assets/images/gin-and-tonic-botanical-conservatory.png"
+    "backdrop_image_url": "/assets/images/gin-and-tonic-botanical-conservatory.webp"
   },
   {
     "slug": "dark-and-stormy-storm-watching-deck",
@@ -580,7 +580,7 @@
     "liquid_color": "#4A2F24",
     "particle_effect": "rain",
     "backdrop_video_url": "/assets/videos/dark-and-stormy-storm-watching-deck.mp4",
-    "backdrop_image_url": "/assets/images/dark-and-stormy-storm-watching-deck.png"
+    "backdrop_image_url": "/assets/images/dark-and-stormy-storm-watching-deck.webp"
   },
   {
     "slug": "passion-fruit-martini-dubai-sky-lounge",
@@ -593,7 +593,7 @@
         "amount": "40ml"
       },
       {
-        "name": "Passion Fruit Purée",
+        "name": "Passion Fruit Pur\u00e9e",
         "amount": "40ml"
       },
       {
@@ -613,6 +613,6 @@
     "liquid_color": "#F5B53F",
     "particle_effect": "bokeh",
     "backdrop_video_url": "/assets/videos/passion-fruit-martini-dubai-sky-lounge.mp4",
-    "backdrop_image_url": "/assets/images/passion-fruit-martini-dubai-sky-lounge.png"
+    "backdrop_image_url": "/assets/images/passion-fruit-martini-dubai-sky-lounge.webp"
   }
 ]

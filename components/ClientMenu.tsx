@@ -188,7 +188,7 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
             const accentColor = cocktail.theme_color_primary || '#f59e0b';
             const dynamicImageUrl =
               cocktail.backdrop_image_url ||
-              `/assets/images/cocktail-image-${String(index + 1).padStart(2, '0')}.png`;
+              `/assets/images/cocktail-image-${String(index + 1).padStart(2, '0')}.webp`;
             return (
               <Link
                 key={cocktail.id}

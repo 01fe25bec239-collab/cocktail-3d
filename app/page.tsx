@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Cocktail } from '@/types/cocktail';
+import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import ClientMenu from '@/components/ClientMenu';
 
@@ -28,7 +29,25 @@ async function getCocktails(): Promise<Cocktail[] | null> {
   return (data as Cocktail[]) ?? [];
 }
 
-export const revalidate = 0;
+export const revalidate = 60; // 1 minute SSR cache
+
+export const metadata: Metadata = {
+  title: 'Cocktail 3D Showcase',
+  description: 'An immersive 3D showcase of signature cocktails and their stories.',
+  openGraph: {
+    title: 'Cocktail 3D Showcase',
+    description: 'An immersive 3D showcase of signature cocktails and their stories.',
+    url: 'https://cocktail-3d.netlify.app',
+    images: [{ url: '/assets/images/og-home.png' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cocktail 3D Showcase',
+    description: 'An immersive 3D showcase of signature cocktails and their stories.',
+    images: ['/assets/images/og-home.png'],
+  },
+};
 
 export default async function Home() {
   const cocktails = await getCocktails();
