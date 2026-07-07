@@ -6,8 +6,19 @@ export async function POST(request: Request) {
   const requestUrl = new URL(request.url);
   const redirectBase = process.env.NEXT_PUBLIC_SITE_URL ?? requestUrl.origin;
 
-  // Extract client IP and apply rate limiting
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1';
+  // CSRF guard: reject cross-origin form posts.
+  const origin = request.headers.get('origin');
+  if (origin && new URL(origin).host !== request.headers.get('host')) {
+    return new NextResponse('Invalid origin', { status: 403 });
+  }
+
+  // Extract client IP and apply rate limiting. Prefer Netlify's
+  // x-nf-client-connection-ip, which is set by the edge and not spoofable by the
+  // client, over x-forwarded-for (whose first entry is attacker-controlled).
+  const ip =
+    request.headers.get('x-nf-client-connection-ip')?.trim() ||
+    request.headers.get('x-forwarded-for')?.split(',').pop()?.trim() ||
+    '127.0.0.1';
   const { limited, retryAfter } = isRateLimited(ip);
   
   if (limited) {

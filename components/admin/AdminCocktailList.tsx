@@ -19,21 +19,21 @@ export default function AdminCocktailList({ initialCocktails }: { initialCocktai
 
   const togglePublish = async (id: string, currentStatus: boolean) => {
     // Optimistic update
-    setCocktails(cocktails.map(c => c.id === id ? { ...c, is_published: !currentStatus } : c));
+    setCocktails(prev => prev.map(c => c.id === id ? { ...c, is_published: !currentStatus } : c));
     setLoadingPublishId(id);
 
     const { error } = await supabase
       .from('cocktails')
       .update({ is_published: !currentStatus })
       .eq('id', id);
-    
+
     setLoadingPublishId(null);
 
     if (!error) {
       router.refresh();
     } else {
       // Revert on error
-      setCocktails(cocktails.map(c => c.id === id ? { ...c, is_published: currentStatus } : c));
+      setCocktails(prev => prev.map(c => c.id === id ? { ...c, is_published: currentStatus } : c));
       alert('Failed to update status');
     }
   };
@@ -41,7 +41,7 @@ export default function AdminCocktailList({ initialCocktails }: { initialCocktai
   const deleteCocktail = async (id: string) => {
     const { error } = await supabase.from('cocktails').delete().eq('id', id);
     if (!error) {
-      setCocktails(cocktails.filter(c => c.id !== id));
+      setCocktails(prev => prev.filter(c => c.id !== id));
       setDeleteConfirmId(null);
       router.refresh();
     } else {

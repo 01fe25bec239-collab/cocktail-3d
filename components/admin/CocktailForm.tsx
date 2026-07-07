@@ -35,6 +35,11 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
   const [uploadingVideo, setUploadingVideo] = useState(false);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'video') => {
+    // ponytail: file type/size checks are client-side only and the extension
+    // comes from the user's filename — not a hard trust boundary. Acceptable
+    // because storage writes are now restricted to the admin allowlist
+    // (see 20260706000000_admin_allowlist.sql); tighten with a bucket policy on
+    // mime-type/size if uploads are ever opened up.
     try {
       if (!event.target.files || event.target.files.length === 0) return;
       
@@ -101,10 +106,20 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Slug must be URL-safe: lowercase letters, digits, single hyphens.
+    // A bad slug produces broken /cocktail/<slug> routes.
+    const slug = (formData.slug || '').trim();
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+      alert('Slug must be lowercase letters, numbers, and single hyphens (e.g. "mojito-classic").');
+      return;
+    }
+
     setLoading(true);
 
     const payload = {
       ...formData,
+      slug,
       ingredients,
     };
 
@@ -137,20 +152,20 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
     <form onSubmit={handleSubmit} className="space-y-6 text-black">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
-          <input type="text" required maxLength={100} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-name" className="block text-sm font-medium text-gray-700">Name</label>
+          <input id="cf-name" type="text" required maxLength={100} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Slug</label>
-          <input type="text" required maxLength={100} value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-slug" className="block text-sm font-medium text-gray-700">Slug</label>
+          <input id="cf-slug" type="text" required maxLength={100} value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Vibe Title</label>
-          <input type="text" required maxLength={100} value={formData.vibe_title} onChange={e => setFormData({ ...formData, vibe_title: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-vibe" className="block text-sm font-medium text-gray-700">Vibe Title</label>
+          <input id="cf-vibe" type="text" required maxLength={100} value={formData.vibe_title} onChange={e => setFormData({ ...formData, vibe_title: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Glass Type</label>
-          <select required value={formData.glass_type} onChange={e => setFormData({ ...formData, glass_type: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border">
+          <label htmlFor="cf-glass" className="block text-sm font-medium text-gray-700">Glass Type</label>
+          <select id="cf-glass" required value={formData.glass_type} onChange={e => setFormData({ ...formData, glass_type: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border">
             <option value="Highball">Highball</option>
             <option value="Rocks">Rocks</option>
             <option value="Coupe">Coupe</option>
@@ -162,30 +177,35 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
           </select>
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Description</label>
-          <textarea required maxLength={500} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={3} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-description" className="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="cf-description" required maxLength={500} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={3} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700">Taste Notes</label>
-          <textarea required maxLength={250} value={formData.taste_notes} onChange={e => setFormData({ ...formData, taste_notes: e.target.value })} rows={2} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-taste" className="block text-sm font-medium text-gray-700">Taste Notes</label>
+          <textarea id="cf-taste" required maxLength={250} value={formData.taste_notes} onChange={e => setFormData({ ...formData, taste_notes: e.target.value })} rows={2} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
         </div>
         
         {/* Colors */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Primary Theme Color</label>
-          <input type="color" required value={formData.theme_color_primary} onChange={e => setFormData({ ...formData, theme_color_primary: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
+          <label htmlFor="cf-color-primary" className="block text-sm font-medium text-gray-700">Primary Theme Color</label>
+          <input id="cf-color-primary" type="color" required value={formData.theme_color_primary} onChange={e => setFormData({ ...formData, theme_color_primary: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Secondary Theme Color</label>
-          <input type="color" required value={formData.theme_color_secondary} onChange={e => setFormData({ ...formData, theme_color_secondary: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
+          <label htmlFor="cf-color-secondary" className="block text-sm font-medium text-gray-700">Secondary Theme Color</label>
+          <input id="cf-color-secondary" type="color" required value={formData.theme_color_secondary} onChange={e => setFormData({ ...formData, theme_color_secondary: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Liquid Color</label>
-          <input type="color" required value={formData.liquid_color} onChange={e => setFormData({ ...formData, liquid_color: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
+          <label htmlFor="cf-liquid-color" className="block text-sm font-medium text-gray-700">Liquid Color</label>
+          <input id="cf-liquid-color" type="color" required value={formData.liquid_color} onChange={e => setFormData({ ...formData, liquid_color: e.target.value })} className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm p-1 border" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">ABV (%)</label>
-          <input type="number" step="0.1" value={formData.abv || 0} onChange={e => setFormData({ ...formData, abv: parseFloat(e.target.value) })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <label htmlFor="cf-abv" className="block text-sm font-medium text-gray-700">ABV (%)</label>
+          <input id="cf-abv" type="number" step="0.1" value={formData.abv || 0} onChange={e => setFormData({ ...formData, abv: parseFloat(e.target.value) })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+        </div>
+        <div>
+          <label htmlFor="cf-order" className="block text-sm font-medium text-gray-700">Display Order</label>
+          <input id="cf-order" type="number" step="1" value={formData.order_index ?? 0} onChange={e => setFormData({ ...formData, order_index: parseInt(e.target.value, 10) || 0 })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+          <p className="mt-1 text-xs text-gray-500">Lower numbers appear first on the menu.</p>
         </div>
 
         {/* Media Uploads */}
@@ -193,9 +213,9 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
           <h3 className="text-lg font-medium text-gray-900">Background Media</h3>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Backdrop Image URL</label>
+            <label htmlFor="cf-image-url" className="block text-sm font-medium text-gray-700">Backdrop Image URL</label>
             <div className="flex gap-2 mt-1">
-              <input type="text" value={formData.backdrop_image_url || ''} onChange={e => setFormData({ ...formData, backdrop_image_url: e.target.value })} className="block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+              <input id="cf-image-url" type="text" value={formData.backdrop_image_url || ''} onChange={e => setFormData({ ...formData, backdrop_image_url: e.target.value })} className="block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
               <div className="relative">
                 <input type="file" accept="image/*" onChange={e => handleFileUpload(e, 'image')} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" disabled={uploadingImage} />
                 <button type="button" className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
@@ -206,9 +226,9 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Backdrop Video URL</label>
+            <label htmlFor="cf-video-url" className="block text-sm font-medium text-gray-700">Backdrop Video URL</label>
             <div className="flex gap-2 mt-1">
-              <input type="text" value={formData.backdrop_video_url || ''} onChange={e => setFormData({ ...formData, backdrop_video_url: e.target.value })} className="block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
+              <input id="cf-video-url" type="text" value={formData.backdrop_video_url || ''} onChange={e => setFormData({ ...formData, backdrop_video_url: e.target.value })} className="block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" />
               <div className="relative">
                 <input type="file" accept="video/*" onChange={e => handleFileUpload(e, 'video')} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" disabled={uploadingVideo} />
                 <button type="button" className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
@@ -219,8 +239,8 @@ export default function CocktailForm({ initialData }: { initialData: Cocktail | 
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Spline Scene URL (Optional)</label>
-            <input type="text" value={formData.spline_scene_url || ''} onChange={e => setFormData({ ...formData, spline_scene_url: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" placeholder="https://prod.spline.design/.../scene.splinecode" />
+            <label htmlFor="cf-spline-url" className="block text-sm font-medium text-gray-700">Spline Scene URL (Optional)</label>
+            <input id="cf-spline-url" type="text" value={formData.spline_scene_url || ''} onChange={e => setFormData({ ...formData, spline_scene_url: e.target.value })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border" placeholder="https://prod.spline.design/.../scene.splinecode" />
           </div>
         </div>
 

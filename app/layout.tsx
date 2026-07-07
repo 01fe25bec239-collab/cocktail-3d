@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import ViewportFix from '@/components/ViewportFix';
 import AgeGateModal from '@/components/AgeGateModal';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://cocktail-3d.netlify.app'),
+  metadataBase: new URL(SITE_URL),
   title: 'Cocktail 3D Showcase',
   description: 'A premium 3D cocktail experience',
 };

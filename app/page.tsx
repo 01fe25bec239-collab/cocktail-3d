@@ -3,6 +3,7 @@ import { Cocktail } from '@/types/cocktail';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import ClientMenu from '@/components/ClientMenu';
+import { SITE_URL } from '@/lib/site';
 
 const BlackHoleBackground = dynamic(
   () => import('@/components/BlackHoleBackground'),
@@ -37,15 +38,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Cocktail 3D Showcase',
     description: 'An immersive 3D showcase of signature cocktails and their stories.',
-    url: 'https://cocktail-3d.netlify.app',
-    images: [{ url: '/assets/images/og-home.png' }],
+    url: SITE_URL,
+    images: [{ url: '/assets/images/og-home.jpg' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cocktail 3D Showcase',
     description: 'An immersive 3D showcase of signature cocktails and their stories.',
-    images: ['/assets/images/og-home.png'],
+    images: ['/assets/images/og-home.jpg'],
   },
 };
 

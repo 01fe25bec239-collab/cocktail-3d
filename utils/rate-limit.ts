@@ -1,4 +1,8 @@
-// In-memory sliding window rate limiter for auth routes
+// In-memory sliding window rate limiter for auth routes.
+// ponytail: per-instance Map, so limits reset on cold start and aren't shared
+// across serverless instances. Supabase Auth's own rate limits are the real
+// backstop; move this to a durable store (Upstash/Redis) if brute-force
+// protection ever becomes load-bearing.
 const tracker = new Map<string, number[]>();
 
 const WINDOW_MS = 60 * 1000; // 1 minute window

@@ -1,11 +1,17 @@
 /** @type {import('next').NextConfig} */
+
+// Derive the Supabase origin/host from env so the config isn't pinned to one
+// project. Falls back to the current project's URL for local builds without env.
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dwgvrvudrxkktgijpzii.supabase.co';
+const supabaseHost = new URL(supabaseUrl).host;
+
 const nextConfig = {
-  output: 'standalone',
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'dwgvrvudrxkktgijpzii.supabase.co',
+        hostname: supabaseHost,
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
@@ -18,7 +24,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://prod.spline.design; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https://dwgvrvudrxkktgijpzii.supabase.co; media-src 'self' blob: data: https://dwgvrvudrxkktgijpzii.supabase.co; connect-src 'self' https://dwgvrvudrxkktgijpzii.supabase.co https://prod.spline.design https://resources.spline.design; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'self' https://prod.spline.design; object-src 'none';",
+            value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://prod.spline.design; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: ${supabaseUrl}; media-src 'self' blob: data: ${supabaseUrl}; connect-src 'self' ${supabaseUrl} https://prod.spline.design https://resources.spline.design; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'self' https://prod.spline.design; object-src 'none';`,
           },
           {
             key: 'Strict-Transport-Security',

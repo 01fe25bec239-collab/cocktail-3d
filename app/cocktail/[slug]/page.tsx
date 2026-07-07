@@ -1,21 +1,20 @@
-import { createClient } from '@/utils/supabase/server';
+import { supabase } from '@/lib/supabase';
 import { Cocktail } from '@/types/cocktail';
 import { notFound } from 'next/navigation';
 import ClientCocktailView from './ClientCocktailView';
 import { Metadata } from 'next';
 import { getSimilarCocktails } from '@/utils/recommendations';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 export const revalidate = 60;
 
 // Fix 5: Optimize Page Transition Speed via SSG
 // This queries Supabase at build time to statically generate all cocktail pages
 // so there is zero server-side latency when a user clicks a cocktail card.
+// These reads only touch published rows, so they use the plain anon client —
+// the cookie-bound server client would force dynamic rendering and defeat SSG.
 export async function generateStaticParams() {
-  const supabase = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  if (!supabase) return [];
+
   const { data } = await supabase
     .from('cocktails')
     .select('slug')
@@ -29,7 +28,8 @@ export async function generateStaticParams() {
 }
 
 async function getCocktail(slug: string): Promise<Cocktail | null> {
-  const supabase = createClient();
+  if (!supabase) return null;
+
   const { data, error } = await supabase
     .from('cocktails')
     .select('*')
@@ -69,7 +69,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 async function getRecommendations(currentCocktail: Cocktail): Promise<Cocktail[]> {
-  const supabase = createClient();
+  if (!supabase) return [];
+
   const { data } = await supabase
     .from('cocktails')
     .select('*')

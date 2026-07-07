@@ -57,11 +57,14 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
   const filteredAndSortedCocktails = useMemo(() => {
     return cocktails
       .filter(cocktail => {
-        // Search filter
+        // Search filter — name, vibe, description, and ingredients (as promised
+        // by the placeholder text).
+        const q = search.toLowerCase();
         const matchesSearch =
-          cocktail.name.toLowerCase().includes(search.toLowerCase()) ||
-          cocktail.vibe_title.toLowerCase().includes(search.toLowerCase()) ||
-          cocktail.description.toLowerCase().includes(search.toLowerCase());
+          cocktail.name.toLowerCase().includes(q) ||
+          cocktail.vibe_title.toLowerCase().includes(q) ||
+          cocktail.description.toLowerCase().includes(q) ||
+          cocktail.ingredients.some(ing => ing.name.toLowerCase().includes(q));
 
         // Spirit base filter
         const matchesSpiritFilter = matchesSpirit(cocktail, selectedSpirit);
@@ -104,8 +107,9 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search bar */}
           <div className="md:col-span-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Search Menu</label>
+            <label htmlFor="menu-search" className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Search Menu</label>
             <input
+              id="menu-search"
               type="text"
               placeholder="Search by name, ingredients, or vibe..."
               value={search}
@@ -116,8 +120,9 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
 
           {/* Sort By */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Sort By</label>
+            <label htmlFor="menu-sort" className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Sort By</label>
             <select
+              id="menu-sort"
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-neutral-950/80 border border-neutral-800 focus:border-cyan-500/50 text-white outline-none transition-all text-sm"
@@ -131,8 +136,9 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
 
           {/* ABV Filter */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Strength (ABV)</label>
+            <label htmlFor="menu-abv" className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">Strength (ABV)</label>
             <select
+              id="menu-abv"
               value={abvRange}
               onChange={e => setAbvRange(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-neutral-950/80 border border-neutral-800 focus:border-cyan-500/50 text-white outline-none transition-all text-sm"
@@ -165,8 +171,9 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Glass:</span>
+            <label htmlFor="menu-glass" className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Glass:</label>
             <select
+              id="menu-glass"
               value={selectedGlass}
               onChange={e => setSelectedGlass(e.target.value)}
               className="px-3 py-1.5 rounded-lg bg-neutral-950/50 border border-neutral-800/80 focus:border-cyan-500/50 text-white outline-none text-xs"
@@ -184,11 +191,14 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
       {/* Cocktails Grid */}
       {filteredAndSortedCocktails.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {filteredAndSortedCocktails.map((cocktail, index) => {
+          {filteredAndSortedCocktails.map((cocktail) => {
             const accentColor = cocktail.theme_color_primary || '#f59e0b';
+            // Fallback image derived from a stable per-cocktail value, not the
+            // filtered array index (which would change the picture on filter).
+            const fallbackNum = (Math.abs(cocktail.order_index) % 20) + 1;
             const dynamicImageUrl =
               cocktail.backdrop_image_url ||
-              `/assets/images/cocktail-image-${String(index + 1).padStart(2, '0')}.webp`;
+              `/assets/images/cocktail-image-${String(fallbackNum).padStart(2, '0')}.webp`;
             return (
               <Link
                 key={cocktail.id}
