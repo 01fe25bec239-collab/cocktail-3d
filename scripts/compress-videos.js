@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 const VIDEO_DIR = path.join(__dirname, '../public/assets/videos');
 const TEMP_DIR = path.join(__dirname, '../public/assets/videos/temp');
@@ -27,11 +27,20 @@ for (const file of files) {
 
   console.log(`Compressing ${file} (${sizeMB.toFixed(1)}MB)...`);
   
-  // FFmpeg command with safe downscaling filter
-  const command = `ffmpeg -i "${inputPath}" -vcodec libx264 -acodec aac -crf 28 -preset fast -vf "scale='min(1920,iw)':'min(1080,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" -y "${outputPath}"`;
-  
+  // FFmpeg args passed as an array (no shell) so filenames can't be interpreted
+  // as shell syntax.
+  const args = [
+    '-i', inputPath,
+    '-vcodec', 'libx264',
+    '-acodec', 'aac',
+    '-crf', '28',
+    '-preset', 'fast',
+    '-vf', "scale='min(1920,iw)':'min(1080,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2",
+    '-y', outputPath,
+  ];
+
   try {
-    execSync(command, { stdio: 'inherit' });
+    execFileSync('ffmpeg', args, { stdio: 'inherit' });
     
     // Check output size
     const { size: outSize } = fs.statSync(outputPath);

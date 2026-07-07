@@ -15,6 +15,16 @@ export default async function AdminLayout({
   if (!user) {
     redirect('/admin/login');
   }
+
+  // Authorization, not just authentication: only allowlisted admins may render
+  // the admin shell. RLS already blocks non-admin writes, but this stops a
+  // signed-in non-admin from seeing/attempting admin operations at all.
+  // Fail closed — if the check errors, treat as not-authorized.
+  const { data: isAdmin } = await supabase.rpc('is_admin');
+  if (!isAdmin) {
+    redirect('/');
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <nav className="bg-white border-b border-gray-200">

@@ -5,6 +5,10 @@ import { Cocktail } from '@/types/cocktail';
 import Link from 'next/link';
 import Image from 'next/image';
 
+// Coerce to a lowercase string safely — a malformed row (non-string field)
+// must not crash the whole menu with `.toLowerCase() of undefined`.
+const lc = (v: unknown) => String(v ?? '').toLowerCase();
+
 export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
   const [search, setSearch] = useState('');
   const [selectedSpirit, setSelectedSpirit] = useState('All');
@@ -27,9 +31,9 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
   // Helper to check if a cocktail matches a spirit base
   const matchesSpirit = (cocktail: Cocktail, spirit: string): boolean => {
     if (spirit === 'All') return true;
-    const nameLower = cocktail.name.toLowerCase();
-    const descLower = cocktail.description.toLowerCase();
-    const ingredientsLower = cocktail.ingredients.map(ing => ing.name.toLowerCase()).join(' ');
+    const nameLower = lc(cocktail.name);
+    const descLower = lc(cocktail.description);
+    const ingredientsLower = (cocktail.ingredients ?? []).map(ing => lc(ing.name)).join(' ');
 
     const targetSpirit = spirit.toLowerCase();
     // Special check for Whiskey/Bourbon
@@ -61,10 +65,10 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
         // by the placeholder text).
         const q = search.toLowerCase();
         const matchesSearch =
-          cocktail.name.toLowerCase().includes(q) ||
-          cocktail.vibe_title.toLowerCase().includes(q) ||
-          cocktail.description.toLowerCase().includes(q) ||
-          cocktail.ingredients.some(ing => ing.name.toLowerCase().includes(q));
+          lc(cocktail.name).includes(q) ||
+          lc(cocktail.vibe_title).includes(q) ||
+          lc(cocktail.description).includes(q) ||
+          (cocktail.ingredients ?? []).some(ing => lc(ing.name).includes(q));
 
         // Spirit base filter
         const matchesSpiritFilter = matchesSpirit(cocktail, selectedSpirit);
