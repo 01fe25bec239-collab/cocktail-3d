@@ -116,10 +116,10 @@ export default function BlackHoleBackground() {
         <fog attach="fog" args={['#000000', 0.01]} />
         <ParticleSwarm />
         {/* Interaction constraints locked to maintain the angled perspective */}
-        <OrbitControls 
-          autoRotate={true} 
-          autoRotateSpeed={1.0} 
-          enableZoom={false} 
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={0.5}
+          enableZoom={false}
           enablePan={false} 
           minPolarAngle={Math.PI / 3} 
           maxPolarAngle={Math.PI / 3} 
