@@ -168,18 +168,20 @@ export default function ClientCocktailView({
         className="w-full md:w-[60%] h-[55dvh] md:h-full relative overflow-hidden flex-1 z-10"
       >
         {cocktail.spline_scene_url ? (
-          <SplineScene 
-            sceneUrl={cocktail.spline_scene_url} 
-            fallbackImageUrl={cocktail.backdrop_image_url || ''} 
-            altText={cocktail.name} 
-          />
+          <>
+            <SplineScene
+              sceneUrl={cocktail.spline_scene_url}
+              fallbackImageUrl={cocktail.backdrop_image_url || ''}
+              altText={cocktail.name}
+            />
+            {/* Spline Watermark Corner Cover — only needed when a Spline scene
+                actually renders (Spline stamps its logo in the corner). */}
+            <div
+              className="absolute bottom-0 right-0 w-40 h-12 pointer-events-none z-10"
+              style={{ background: 'linear-gradient(to bottom right, transparent, #0a0a0a)' }}
+            />
+          </>
         ) : null}
-        
-        {/* Spline Watermark Corner Cover */}
-        <div 
-          className="absolute bottom-0 right-0 w-40 h-12 pointer-events-none z-10"
-          style={{ background: 'linear-gradient(to bottom right, transparent, #0a0a0a)' }}
-        />
       </div>
     </div>
   );
