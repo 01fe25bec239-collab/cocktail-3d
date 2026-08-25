@@ -13,6 +13,10 @@ export default function AgeGateModal() {
       setShowModal(true);
       // Optional: Prevent scrolling while modal is open
       document.body.style.overflow = 'hidden';
+      // Restore scroll if the gate unmounts while active (e.g. HMR/fast-refresh)
+      return () => {
+        document.body.style.overflow = '';
+      };
     }
   }, []);
 

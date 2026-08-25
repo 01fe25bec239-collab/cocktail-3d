@@ -3,13 +3,21 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
 import { OrbitControls, Effects } from '@react-three/drei';
 import { UnrealBloomPass } from 'three-stdlib';
 import * as THREE from 'three';
+import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 
 extend({ UnrealBloomPass });
+
+// ── Black-hole motion tuning ────────────────────────────────────────────────
+// Single place to tune how fast the vortex moves so it reads as calm/ambient
+// rather than attention-grabbing. Keep both values above 0 so the scene stays
+// alive; prefers-reduced-motion bypasses them entirely via frameloop='never'.
+const TIME_SCALE = 0.30; // multiplies the simulation clock: swirl + vertical waves
+const ORBIT_SPEED = 0.18; // camera auto-orbit speed around the disk
 
 declare global {
   namespace JSX {
@@ -19,10 +27,8 @@ declare global {
   }
 }
 
-const ParticleSwarm = () => {
+const ParticleSwarm = ({ count }: { count: number }) => {
   const meshRef = useRef<THREE.InstancedMesh>(null);
-  const count = 20000;
-  const speedMult = 1;
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const target = useMemo(() => new THREE.Vector3(), []);
 
@@ -30,7 +36,7 @@ const ParticleSwarm = () => {
      const pos = [];
      for(let i=0; i<count; i++) pos.push(new THREE.Vector3((Math.random()-0.5)*100, (Math.random()-0.5)*100, (Math.random()-0.5)*100));
      return pos;
-  }, []);
+  }, [count]);
 
   const material = useMemo(() => new THREE.MeshBasicMaterial({ color: 0xffffff }), []);
   const geometry = useMemo(() => new THREE.TetrahedronGeometry(0.25), []);
@@ -39,7 +45,7 @@ const ParticleSwarm = () => {
   const { scale, spin, accretion, warp } = { scale: 52.4, spin: 6.908, accretion: 2, warp: 2.79 };
 
   // Per-instance colors depend only on radius (a function of the index), not on
-  // time — so compute them once at mount rather than every frame for 20k items.
+  // time — so compute them once at mount rather than every frame for N items.
   useEffect(() => {
     const mesh = meshRef.current;
     if (!mesh) return;
@@ -53,7 +59,7 @@ const ParticleSwarm = () => {
       mesh.setColorAt(i, color);
     }
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-  }, [scale]);
+  }, [scale, count]);
 
   // R3F only auto-disposes JSX-declared objects; these useMemo'd GPU resources
   // must be released manually or they leak on every navigation.
@@ -67,7 +73,7 @@ const ParticleSwarm = () => {
   useFrame((state) => {
     const mesh = meshRef.current;
     if (!mesh) return;
-    const time = state.clock.getElapsedTime() * speedMult;
+    const time = state.clock.getElapsedTime() * TIME_SCALE;
 
     for (let i = 0; i < count; i++) {
         const u = (i + 0.5) / count;
@@ -109,25 +115,50 @@ const ParticleSwarm = () => {
 };
 
 export default function BlackHoleBackground() {
+  const { capability, hasChecked } = useDeviceCapability();
+  // Respect prefers-reduced-motion: render one static frame instead of an
+  // endless animation loop (the CSS-only global override cannot stop WebGL).
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  // Adaptive density: the vortex look survives a lower particle count on
+  // low-end devices where a 20k-instance CPU simulation tanks the frame rate.
+  const count = capability === 'high' ? 20000 : 7000;
+
   return (
     <div className="fixed inset-0 bg-black -z-20 pointer-events-none">
-      {/* Elevated camera for a majestic top-down angled perspective of the vortex */}
-      <Canvas camera={{ position: [0, 80, 120], fov: 60 }}>
-        <fog attach="fog" args={['#000000', 0.01]} />
-        <ParticleSwarm />
-        {/* Interaction constraints locked to maintain the angled perspective */}
-        <OrbitControls
-          autoRotate={true}
-          autoRotateSpeed={0.5}
-          enableZoom={false}
-          enablePan={false} 
-          minPolarAngle={Math.PI / 3} 
-          maxPolarAngle={Math.PI / 3} 
-        />
-        <Effects disableGamma>
-            <unrealBloomPass threshold={0} strength={1.8} radius={0.4} />
-        </Effects>
-      </Canvas>
+      {hasChecked && (
+        /* Cap devicePixelRatio: the bloom pass runs at full render resolution,
+           so an uncapped DPR (3x phones) triples one of the most expensive
+           stages of the frame. */
+        <Canvas
+          camera={{ position: [0, 80, 120], fov: 60 }}
+          dpr={[1, capability === 'high' ? 1.75 : 1]}
+          frameloop={reducedMotion ? 'never' : 'always'}
+        >
+          <fog attach="fog" args={['#000000', 0.01]} />
+          <ParticleSwarm key={count} count={count} />
+          {/* Interaction constraints locked to maintain the angled perspective */}
+          <OrbitControls
+            autoRotate={true}
+            autoRotateSpeed={ORBIT_SPEED}
+            enableZoom={false}
+            enablePan={false} 
+            minPolarAngle={Math.PI / 3} 
+            maxPolarAngle={Math.PI / 3} 
+          />
+          <Effects disableGamma>
+              <unrealBloomPass threshold={0} strength={1.8} radius={0.4} />
+          </Effects>
+        </Canvas>
+      )}
     </div>
   );
 }

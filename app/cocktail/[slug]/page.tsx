@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import ClientCocktailView from './ClientCocktailView';
 import { Metadata } from 'next';
 import { getSimilarCocktails } from '@/utils/recommendations';
+import { cache } from 'react';
+import { MENU_COLUMNS } from '@/lib/cocktail-columns';
 
 export const revalidate = 60;
 
@@ -27,7 +29,10 @@ export async function generateStaticParams() {
   }));
 }
 
-async function getCocktail(slug: string): Promise<Cocktail | null> {
+// React `cache` deduplicates this query: generateMetadata and the page
+// component both need the row, and without dedupe each ISR regeneration paid
+// for two identical sequential PostgREST round-trips.
+const getCocktail = cache(async (slug: string): Promise<Cocktail | null> => {
   if (!supabase) return null;
 
   const { data, error } = await supabase
@@ -39,11 +44,16 @@ async function getCocktail(slug: string): Promise<Cocktail | null> {
 
   if (error || !data) return null;
   return data as Cocktail;
-}
+});
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const cocktail = await getCocktail(params.slug);
-  if (!cocktail) return { title: 'Cocktail Not Found' };
+  if (!cocktail) {
+    // Throwing here (not just returning fallback metadata) is what makes the
+    // ISR-fallback render record a real HTTP 404 — otherwise unknown slugs are
+    // served (and cached) with status 200 + "not found" content (soft 404).
+    notFound();
+  }
   
   const title = cocktail.vibe_title ? `${cocktail.name} — ${cocktail.vibe_title} | Cocktail 3D Showcase` : `${cocktail.name} | Cocktail 3D Showcase`;
   const description = cocktail.description || `Discover the visual artistry and flavor notes of ${cocktail.name}.`;
@@ -71,14 +81,17 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 async function getRecommendations(currentCocktail: Cocktail): Promise<Cocktail[]> {
   if (!supabase) return [];
 
+  // Only the columns consumed by the scoring algorithm and the recommendation
+  // cards — not the full row (videos/scenes/notes of every cocktail).
+  // getSimilarCocktails() excludes the current cocktail itself.
   const { data } = await supabase
     .from('cocktails')
-    .select('*')
+    .select(MENU_COLUMNS)
     .eq('is_published', true);
-    
+
   if (!data) return [];
-  
-  return getSimilarCocktails(currentCocktail, data as Cocktail[]);
+
+  return getSimilarCocktails(currentCocktail, data as unknown as Cocktail[]);
 }
 
 export default async function CocktailPage({ params }: { params: { slug: string } }) {

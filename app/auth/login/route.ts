@@ -2,16 +2,17 @@ import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { isRateLimited } from '@/utils/rate-limit';
 import { isSameOrigin } from '@/utils/verify-origin';
-import { SITE_URL } from '@/lib/site';
+import { getRequestOrigin } from '@/lib/request-origin';
 
 export async function POST(request: Request) {
-  // Canonical redirect base — never derived from a (potentially spoofed) Host.
-  const redirectBase = SITE_URL;
-
-  // CSRF guard: reject cross-origin or malformed-origin form posts.
+  // Redirect back to whatever host served this login form (ADMIN-001):
+  // localhost stays on localhost, preview deployments stay on their preview.
+  // The CSRF guard below must run first — it proves any present Origin header
+  // equals Host before either is trusted for redirect construction.
   if (!isSameOrigin(request)) {
     return new NextResponse('Invalid origin', { status: 403 });
   }
+  const redirectBase = getRequestOrigin(request);
 
   // Extract client IP and apply rate limiting. Prefer Netlify's
   // x-nf-client-connection-ip, which is set by the edge and not spoofable by the

@@ -26,21 +26,25 @@ export default async function AdminLogin({
 
         <form action="/auth/login" method="post" className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input 
+            <label htmlFor="admin-email" className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              id="admin-email"
               name="email"
               type="email"
-              required 
+              required
+              autoComplete="email"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-black"
               placeholder="admin@example.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input 
+            <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              id="admin-password"
               name="password"
               type="password"
-              required 
+              required
+              autoComplete="current-password"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-black"
             />
           </div>

@@ -1,14 +1,10 @@
 import { supabase } from '@/lib/supabase';
 import { Cocktail } from '@/types/cocktail';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import ClientMenu from '@/components/ClientMenu';
+import DeferredBackground from '@/components/DeferredBackground';
 import { SITE_URL } from '@/lib/site';
-
-const BlackHoleBackground = dynamic(
-  () => import('@/components/BlackHoleBackground'),
-  { ssr: false }
-);
+import { MENU_COLUMNS } from '@/lib/cocktail-columns';
 
 async function getCocktails(): Promise<Cocktail[] | null> {
   if (!supabase) {
@@ -18,7 +14,7 @@ async function getCocktails(): Promise<Cocktail[] | null> {
 
   const { data, error } = await supabase
     .from('cocktails')
-    .select('*')
+    .select(MENU_COLUMNS)
     .eq('is_published', true)
     .order('order_index', { ascending: true });
 
@@ -27,7 +23,7 @@ async function getCocktails(): Promise<Cocktail[] | null> {
     return null;
   }
 
-  return (data as Cocktail[]) ?? [];
+  return (data as unknown as Cocktail[]) ?? [];
 }
 
 export const revalidate = 60; // 1 minute SSR cache
@@ -55,7 +51,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-transparent text-white font-sans selection:bg-amber-500/30 selection:text-amber-200 relative overflow-x-hidden">
-      <BlackHoleBackground />
+      <DeferredBackground />
 
       {/* Header */}
       <header className="pt-24 pb-16 px-6 text-center max-w-4xl mx-auto relative z-10">
