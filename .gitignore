@@ -52,8 +52,18 @@ next-env.d.ts
 # local asset backup
 /images_backup/
 
+# Unused 3D model library (348MB) — no code references /assets/models/**;
+# the cocktail detail pages use hosted Spline scenes instead. Kept on disk
+# locally but excluded from git and deployments.
+/public/assets/models/
+
 # stray nested dev-cache dir (never commit)
 /cocktail_3d../
 
 # raw video source files (compressed copies live in public/assets/videos)
 /cocktail_videos/
+
+# browser-validation artifacts (Playwright MCP session logs/snapshots/screenshots)
+/.playwright-mcp/
+/*.png
+

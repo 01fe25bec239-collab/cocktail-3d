@@ -2,8 +2,13 @@
 
 import { useDeviceCapability } from '@/hooks/useDeviceCapability';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useState, useEffect, useRef } from 'react';
-import Spline from '@splinetool/react-spline';
+
+// The Spline runtime is ~2MB of JS/WASM. It must never sit in the critical
+// path — especially since cocktails may not have a scene at all. Load it only
+// when a scene URL actually exists and the container is in view.
+const Spline = dynamic(() => import('@splinetool/react-spline'), { ssr: false });
 
 interface SplineSceneProps {
   sceneUrl: string;
@@ -118,7 +123,7 @@ export default function SplineScene({ sceneUrl, fallbackImageUrl, altText }: Spl
 
       {/* Actual 3D Scene */}
       <div className={`absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-0`}>
-        {isInView && (
+        {isInView && currentSceneUrl && (
           <Spline 
             scene={currentSceneUrl} 
             onLoad={handleSplineLoad}

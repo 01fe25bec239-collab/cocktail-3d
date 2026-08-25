@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { Cocktail } from '@/types/cocktail';
+import { matchesSpirit } from '@/utils/spirit-filter';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -27,36 +28,6 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
 
   // Major spirit groups
   const spiritBases = ['All', 'Gin', 'Vodka', 'Rum', 'Whiskey', 'Tequila', 'Champagne', 'Mezcal'];
-
-  // Helper to check if a cocktail matches a spirit base
-  const matchesSpirit = (cocktail: Cocktail, spirit: string): boolean => {
-    if (spirit === 'All') return true;
-    const nameLower = lc(cocktail.name);
-    const descLower = lc(cocktail.description);
-    const ingredientsLower = (cocktail.ingredients ?? []).map(ing => lc(ing.name)).join(' ');
-
-    const targetSpirit = spirit.toLowerCase();
-    // Special check for Whiskey/Bourbon
-    if (targetSpirit === 'whiskey') {
-      return (
-        nameLower.includes('whiskey') ||
-        nameLower.includes('bourbon') ||
-        nameLower.includes('rye') ||
-        descLower.includes('whiskey') ||
-        descLower.includes('bourbon') ||
-        descLower.includes('rye') ||
-        ingredientsLower.includes('whiskey') ||
-        ingredientsLower.includes('bourbon') ||
-        ingredientsLower.includes('rye')
-      );
-    }
-
-    return (
-      nameLower.includes(targetSpirit) ||
-      descLower.includes(targetSpirit) ||
-      ingredientsLower.includes(targetSpirit)
-    );
-  };
 
   const filteredAndSortedCocktails = useMemo(() => {
     return cocktails
@@ -209,8 +180,12 @@ export default function ClientMenu({ cocktails }: { cocktails: Cocktail[] }) {
                 href={`/cocktail/${cocktail.slug}`}
                 prefetch={true}
                 onMouseEnter={() => {
-                  // Preload the heavy Spline library when user hovers over a card
-                  import('@splinetool/react-spline');
+                  // Preload the heavy Spline library only when this cocktail
+                  // actually has a scene — otherwise it's a wasted multi-MB
+                  // download (most rows have no spline_scene_url).
+                  if (cocktail.spline_scene_url) {
+                    import('@splinetool/react-spline');
+                  }
                 }}
                 className="group relative flex flex-col justify-between h-[420px] rounded-2xl bg-neutral-900/30 backdrop-blur-md border border-neutral-800/40 overflow-hidden hover:border-neutral-700/60 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.5)] hover:-translate-y-1"
               >

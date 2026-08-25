@@ -10,7 +10,7 @@
     "postinstall": "node postinstall.js",
     "postbuild": "next-sitemap",
     "seed": "tsx scripts/seed.ts",
-    "test": "tsx utils/recommendations.test.ts && tsx utils/verify-origin.test.ts"
+    "test": "tsx utils/recommendations.test.ts && tsx utils/spirit-filter.test.ts && tsx utils/verify-origin.test.ts && tsx lib/request-origin.test.ts && tsx lib/revalidate-paths.test.ts && tsx lib/form-validation.test.ts"
   },
   "dependencies": {
     "@react-three/drei": "9.114.3",

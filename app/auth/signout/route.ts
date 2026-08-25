@@ -1,16 +1,15 @@
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { isSameOrigin } from '@/utils/verify-origin';
-import { SITE_URL } from '@/lib/site';
+import { getRequestOrigin } from '@/lib/request-origin';
 
 export async function POST(request: Request) {
-  // Canonical redirect base — never derived from a (potentially spoofed) Host.
-  const redirectBase = SITE_URL;
-
-  // CSRF guard: reject cross-origin or malformed-origin form posts.
+  // Redirect back to the host that served this form (see ADMIN-001 in
+  // app/auth/login/route.ts); isSameOrigin must run before origin is trusted.
   if (!isSameOrigin(request)) {
     return new NextResponse('Invalid origin', { status: 403 });
   }
+  const redirectBase = getRequestOrigin(request);
 
   const supabase = createClient();
   await supabase.auth.signOut();
